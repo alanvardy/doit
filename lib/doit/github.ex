@@ -46,21 +46,35 @@ defmodule Doit.GitHub do
     urls = %{comment_url: comment_url, url: url}
 
     cond do
-      Regex.match?(@pull_request_regex, url) && is_nil(comment_url) ->
-        format_url(urls, :pull_request)
-
-      Regex.match?(@pull_request_regex, url) && url == comment_url ->
-        format_url(urls, :pull_request)
-
-      Regex.match?(@repo_regex, url) && url == comment_url ->
-        format_url(urls, :repo)
-
-      Regex.match?(@pull_request_regex, url) && Regex.match?(@comment_regex, comment_url) ->
-        format_url(urls, :pull_request_comment)
-
-      true ->
-        url
+      pull_request?(url, comment_url) -> format_url(urls, :pull_request)
+      repo_notification?(url, comment_url) -> format_url(urls, :repo)
+      pull_reqest_comment?(url, comment_url) -> format_url(urls, :pull_request_comment)
+      true -> url
     end
+  end
+
+  defp pull_request?(url, nil) do
+    Regex.match?(@pull_request_regex, url)
+  end
+
+  defp pull_request?(urls_match, urls_match) do
+    Regex.match?(@pull_request_regex, urls_match)
+  end
+
+  defp pull_request?(_, _), do: false
+
+  defp repo_notification?(url, nil) do
+    Regex.match?(@repo_regex, url)
+  end
+
+  defp repo_notification?(urls_match, urls_match) do
+    Regex.match?(@repo_regex, urls_match)
+  end
+
+  defp repo_notification?(_, _), do: false
+
+  defp pull_reqest_comment?(url, comment_url) do
+    Regex.match?(@pull_request_regex, url) && Regex.match?(@comment_regex, comment_url)
   end
 
   defp format_url(%{url: url}, :pull_request) do
