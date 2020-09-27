@@ -25,7 +25,11 @@ defmodule Doit.MixProject do
       {:httpoison, "~> 1.6"},
       {:jason, "~> 1.2"},
       {:ecto, "~> 3.4"},
-      {:typed_struct, "~> 0.2.1"}
+      {:typed_struct, "~> 0.2.1"},
+      # Tooling
+      {:ex_check, "~>0.12", only: :dev, runtime: false},
+      {:credo, "~> 1.4.0", only: [:dev, :test], runtime: false},
+      {:dialyxir, "~> 1.0.0-rc.6", only: [:dev, :test], runtime: false}
     ]
   end
 end

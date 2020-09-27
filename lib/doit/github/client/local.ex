@@ -1,4 +1,7 @@
-defmodule Doit.GitHub.LocalClient do
+defmodule Doit.GitHub.Client.Local do
+  @moduledoc """
+  Mock client for GitHub
+  """
   @behaviour Doit.GitHub.Client
   alias Doit.GitHub.Response
 

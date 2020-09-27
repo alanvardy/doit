@@ -1,12 +1,16 @@
 defmodule Doit.GitHub do
-  alias Doit.GitHub.Response
+  @moduledoc """
+  All things pertaining to calling the GitHub API and interpreting its output
+  """
+  alias Doit.GitHub.{Client, Response}
 
   @pull_request_regex ~r/https:\/\/api.github.com\/repos\/(?<org>[^\/]*)\/(?<repo>[^\/]*)\/pulls\/(?<pull_id>[\d]*)$/
   @comment_regex ~r/https:\/\/api.github.com\/repos\/(?<org>[^\/]*)\/(?<repo>[^\/]*)\/issues\/comments\/(?<comment_id>[\d]*)$/
   @repo_regex ~r/https:\/\/api.github.com\/repos\/(?<org>[^\/]*)\/(?<repo>[^\/]*)$/
-  @client Application.fetch_env!(:doit, :github_client)
+
+  @spec get_notifications :: {:ok, Doit.GitHub.Response.t()} | {:error, :bad_response}
   def get_notifications do
-    with {:ok, response} <- @client.notifications() do
+    with {:ok, response} <- Client.notifications() do
       {:ok, format_response(response)}
     end
   end
