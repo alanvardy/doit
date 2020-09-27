@@ -3,8 +3,8 @@ import Config
 
 config :doit,
   # Get your GitHub token here: https://github.com/settings/tokens
-  github_token: "86a372d2012ee369e34e997639cec6eed77cb1a1",
+  github_token: "xxxxxxxxxxxxxxxxxxxxxx",
   # Get Todoist API token here: https://todoist.com/prefs/integrations
-  todoist_token: "7ba55cca93bc2ef867725eb5fb2933747bf26be7",
+  todoist_token: "xxxxxxxxxxxxxxxxxxxxxx",
   # Go to your project in a web browser, it will be the final digits in the url
-  default_project: "2243747250"
+  default_project: "99999999999999999"
