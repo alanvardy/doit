@@ -7,4 +7,4 @@ config :doit,
   # Get Todoist API token here: https://todoist.com/prefs/integrations
   todoist_token: "xxxxxxxxxxxxxxxxxxxxxx",
   # Go to your Todoist project in a web browser, it will be the final digits in the url
-  default_project: "99999999999999999"
+  default_project: "999999999"
