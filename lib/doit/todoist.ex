@@ -49,10 +49,10 @@ defmodule Doit.Todoist do
   end
 
   defp project_id do
-    Application.get_env(:doit, :default_project)
+    Application.fetch_env!(:doit, :default_project)
   end
 
   defp todoist_token do
-    Application.get_env(:doit, :todoist_token)
+    Application.fetch_env!(:doit, :todoist_token)
   end
 end

@@ -24,7 +24,8 @@ defmodule Doit.MixProject do
     [
       {:httpoison, "~> 1.6"},
       {:jason, "~> 1.2"},
-      {:ecto, "~> 3.4"}
+      {:ecto, "~> 3.4"},
+      {:typed_struct, "~> 0.2.1"}
     ]
   end
 end
