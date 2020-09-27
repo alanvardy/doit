@@ -49,7 +49,7 @@ defmodule Doit.GitHubTest do
                     url: "https://github.com/theblitzapp/blitz-backend/pull/1775"
                   }
                 ],
-                poll_interval: 60000,
+                poll_interval: 60_000,
                 timestamp: "2020-09-27T02:20:55.752557Z"
               }} = GitHub.get_notifications()
     end
