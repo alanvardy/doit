@@ -7,7 +7,7 @@ defmodule Doit.GitHub.Url do
   @comment_regex ~r/https:\/\/api.github.com\/repos\/(?<org>[^\/]*)\/(?<repo>[^\/]*)\/issues\/comments\/(?<comment_id>[\d]*)$/
   @repo_regex ~r/https:\/\/api.github.com\/repos\/(?<org>[^\/]*)\/(?<repo>[^\/]*)$/
 
-  @spec format(map) :: %{repo: String.t(), url: String.t()}
+  @spec format(map) :: %{repo: String.t(), url: String.t(), repo_url: String.t()}
   def format(notification) do
     comment_url = get_in(notification, ["subject", "latest_comment_url"])
     url = get_in(notification, ["subject", "url"])
