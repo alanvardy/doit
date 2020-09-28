@@ -4,6 +4,7 @@ defmodule Doit.GitHub.Client.Local do
   """
   @behaviour Doit.GitHub.Client
 
+  @impl true
   def notifications do
     {:ok,
      %{
@@ -267,4 +268,7 @@ defmodule Doit.GitHub.Client.Local do
        timestamp: "2020-09-27T02:20:55.752557Z"
      }}
   end
+
+  @impl true
+  def clear_notifications(_timestamp), do: :ok
 end

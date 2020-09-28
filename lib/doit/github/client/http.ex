@@ -3,9 +3,12 @@ defmodule Doit.GitHub.Client.HTTP do
   The actual client for GitHub
   """
 
+  alias HTTPoison.Response
+
   @behaviour Doit.GitHub.Client
   @notifications_url "https://api.github.com/notifications"
 
+  @impl true
   def notifications do
     headers = [
       Authorization: "Bearer #{github_token()}",
@@ -17,11 +20,31 @@ defmodule Doit.GitHub.Client.HTTP do
     options = [ssl: [{:versions, [:"tlsv1.2"]}], recv_timeout: 5000, params: [before: now]]
 
     case HTTPoison.get(@notifications_url, headers, options) do
-      {:ok, %HTTPoison.Response{status_code: 200, body: body, headers: headers}} ->
+      {:ok, %Response{status_code: 200, body: body, headers: headers}} ->
         {:ok, %{notifications: Jason.decode!(body), headers: headers, timestamp: now}}
 
       _ ->
         {:error, :bad_response}
+    end
+  end
+
+  @impl true
+  def clear_notifications(timestamp) do
+    headers = [
+      Authorization: "Bearer #{github_token()}",
+      Accept: "application/vnd.github.v3+json"
+    ]
+
+    options = [
+      ssl: [{:versions, [:"tlsv1.2"]}],
+      recv_timeout: 5000,
+      params: [last_read_at: timestamp]
+    ]
+
+    case HTTPoison.put(@notifications_url, "", headers, options) do
+      {:ok, %Response{status_code: 205}} -> :ok
+      {:ok, %Response{status_code: 202}} -> :ok
+      _ -> {:error, :bad_response}
     end
   end
 

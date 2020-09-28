@@ -11,6 +11,11 @@ defmodule Doit.GitHub do
     end
   end
 
+  @spec clear_notifications(String.t()) :: :ok | {:error, :bad_response}
+  def clear_notifications(timestamp) do
+    Client.clear_notifications(timestamp)
+  end
+
   @spec tasks_from_response(Response.t()) :: [String.t()]
   def tasks_from_response(%Response{notifications: notifications}) do
     Enum.map(notifications, &task_from_notification/1)
