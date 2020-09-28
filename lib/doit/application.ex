@@ -10,6 +10,7 @@ defmodule Doit.Application do
     children = [
       # Starts a worker by calling: Doit.Worker.start_link(arg)
       # {Doit.Worker, arg}
+      {Doit.Processor, []}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

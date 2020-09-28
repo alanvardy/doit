@@ -3,11 +3,10 @@ defmodule Doit.GitHub.Client.Local do
   Mock client for GitHub
   """
   @behaviour Doit.GitHub.Client
-  alias Doit.GitHub.Response
 
   def notifications do
     {:ok,
-     %Response{
+     %{
        notifications: [
          %{
            "id" => "1192830250",

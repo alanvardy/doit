@@ -4,11 +4,11 @@ defmodule Doit.Todoist do
   """
   alias Doit.Todoist.Client
 
-  @spec create_tasks([String.t()]) :: :ok | {:error, :bad_response}
-  def create_tasks(tasks) when is_list(tasks) do
-    tasks
-    |> Enum.map(&task_to_command/1)
-    |> Client.create_tasks()
+  @spec create_task(String.t()) :: :ok | {:error, :bad_response}
+  def create_task(task) do
+    task
+    |> task_to_command()
+    |> Client.create_task()
   end
 
   defp task_to_command(task) do

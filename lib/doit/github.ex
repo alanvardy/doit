@@ -2,7 +2,7 @@ defmodule Doit.GitHub do
   @moduledoc """
   All things pertaining to calling the GitHub API and interpreting its output
   """
-  alias Doit.GitHub.{Client, Response, Url}
+  alias Doit.GitHub.{Client, Notification, Response, Url}
 
   @spec get_notifications :: {:ok, Doit.GitHub.Response.t()} | {:error, :bad_response}
   def get_notifications do
@@ -11,7 +11,17 @@ defmodule Doit.GitHub do
     end
   end
 
-  defp format_response(%Response{} = response) do
+  @spec tasks_from_response(Response.t()) :: [String.t()]
+  def tasks_from_response(%Response{notifications: notifications}) do
+    Enum.map(notifications, &task_from_notification/1)
+  end
+
+  @spec task_from_notification(Notification.t()) :: String.t()
+  def task_from_notification(%Notification{title: title, type: type, url: url, repo: repo}) do
+    "#{repo} -- #{type} -- [#{title}](#{url})"
+  end
+
+  defp format_response(response) do
     {"X-Poll-Interval", interval} =
       Enum.find(response.headers, {"X-Poll-Interval", "60"}, &(elem(&1, 0) == "X-Poll-Interval"))
 
@@ -21,17 +31,21 @@ defmodule Doit.GitHub do
       |> :timer.seconds()
 
     %Response{
-      response
-      | poll_interval: poll_interval,
-        notifications: Enum.map(response.notifications, &build_notification/1)
+      timestamp: response.timestamp,
+      headers: response.headers,
+      poll_interval: poll_interval,
+      notifications: Enum.map(response.notifications, &build_notification/1)
     }
   end
 
   defp build_notification(notification) do
-    %{
+    %{repo: repo, url: url} = Url.format(notification)
+
+    %Notification{
       title: get_in(notification, ["subject", "title"]),
       type: format_type(notification),
-      url: Url.format(notification)
+      url: url,
+      repo: repo
     }
   end
 

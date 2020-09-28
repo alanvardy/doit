@@ -4,6 +4,6 @@ defmodule Doit.Todoist.Client.Local do
   """
   @behaviour Doit.Todoist.Client
 
-  @spec create_tasks([String.t()]) :: :ok | {:error, :bad_response}
-  def create_tasks(_tasks), do: :ok
+  @spec create_task(map) :: :ok | {:error, :bad_response}
+  def create_task(_task), do: :ok
 end

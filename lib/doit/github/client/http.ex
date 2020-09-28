@@ -2,7 +2,6 @@ defmodule Doit.GitHub.Client.HTTP do
   @moduledoc """
   The actual client for GitHub
   """
-  alias Doit.GitHub
 
   @behaviour Doit.GitHub.Client
   @notifications_url "https://api.github.com/notifications"
@@ -19,8 +18,7 @@ defmodule Doit.GitHub.Client.HTTP do
 
     case HTTPoison.get(@notifications_url, headers, options) do
       {:ok, %HTTPoison.Response{status_code: 200, body: body, headers: headers}} ->
-        {:ok,
-         %GitHub.Response{notifications: Jason.decode!(body), headers: headers, timestamp: now}}
+        {:ok, %{notifications: Jason.decode!(body), headers: headers, timestamp: now}}
 
       _ ->
         {:error, :bad_response}
