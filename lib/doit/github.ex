@@ -17,8 +17,16 @@ defmodule Doit.GitHub do
   end
 
   @spec task_from_notification(Notification.t()) :: String.t()
-  def task_from_notification(%Notification{title: title, type: type, url: url, repo: repo}) do
-    "#{repo} -- #{type} -- [#{title}](#{url})"
+  def task_from_notification(%Notification{} = notification) do
+    %Notification{
+      title: title,
+      type: type,
+      url: url,
+      repo: repo,
+      repo_url: repo_url
+    } = notification
+
+    "[#{repo}](#{repo_url}) -- #{type} -- [#{title}](#{url})"
   end
 
   defp format_response(response) do
@@ -39,13 +47,14 @@ defmodule Doit.GitHub do
   end
 
   defp build_notification(notification) do
-    %{repo: repo, url: url} = Url.format(notification)
+    %{repo: repo, url: url, repo_url: repo_url} = Url.format(notification)
 
     %Notification{
       title: get_in(notification, ["subject", "title"]),
       type: format_type(notification),
       url: url,
-      repo: repo
+      repo: repo,
+      repo_url: repo_url
     }
   end
 

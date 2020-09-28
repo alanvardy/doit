@@ -10,5 +10,6 @@ defmodule Doit.GitHub.Notification do
     field :type, String.t(), enforce: true
     field :url, String.t(), enforce: true
     field :repo, String.t(), enforce: true
+    field :repo_url, String.t(), enforce: true
   end
 end
