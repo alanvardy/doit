@@ -3,4 +3,4 @@
 
 [![Build Status](https://github.com/alanvardy/exzeitable/workflows/ex_check/badge.svg)](https://github.com/alanvardy/exzeitable)
 
-Send your GitHub notifications to Todoist in soft-realtime.
+Aggressively send your GitHub notifications to Todoist in soft-realtime.
