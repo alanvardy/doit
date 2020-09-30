@@ -1,21 +1,6 @@
 # Doit
+![Because Shia says so](doit.png)
 
-**TODO: Add description**
+[![Build Status](https://github.com/alanvardy/exzeitable/workflows/ex_check/badge.svg)](https://github.com/alanvardy/exzeitable)
 
-## Installation
-
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `doit` to your list of dependencies in `mix.exs`:
-
-```elixir
-def deps do
-  [
-    {:doit, "~> 0.1.0"}
-  ]
-end
-```
-
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/doit](https://hexdocs.pm/doit).
-
+Send your GitHub notifications to Todoist in soft-realtime.

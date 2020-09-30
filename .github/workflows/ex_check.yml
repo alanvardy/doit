@@ -1,5 +1,5 @@
 
-name: Ex Check
+name: ex_check
 
 on: [push, pull_request]
 
