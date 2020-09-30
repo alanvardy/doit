@@ -8,6 +8,7 @@
     ## curated tools may be disabled (e.g. the check for compilation warnings)
     {:sobelow, false},
     {:ex_doc, false},
+    {:ex_unit, command: "mix test", env: %{"MIX_ENV" => "test"}}
 
     ## ...or have command & args adjusted (e.g. enable skip comments for sobelow)
     # {:sobelow, "mix sobelow --exit --skip"},
