@@ -20,7 +20,7 @@ defmodule Doit.Todoist do
 
     with {:ok, response} <- Client.completed_items(timestamp),
          {:ok, tasks} <- CompletedTasks.process(response) do
-      {:ok, tasks}
+      CompletedTasks.pretty_print(tasks)
     end
   end
 

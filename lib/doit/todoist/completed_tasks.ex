@@ -17,6 +17,22 @@ defmodule Doit.Todoist.CompletedTasks do
     {:error, "malformed response: #{inspect(response)}"}
   end
 
+  # Temporary for printing to terminal
+  @spec pretty_print(map) :: {:ok, map}
+  def pretty_print(task_list) do
+    IO.puts("========= LAST 24 HOURS =========")
+
+    for {project, tasks} <- task_list do
+      IO.puts("\n== #{project} ==")
+
+      for %{content: content, completed_at: completed_at} <- tasks do
+        IO.puts(" - #{completed_at} - #{content}")
+      end
+    end
+
+    {:ok, task_list}
+  end
+
   defp process_task(task) do
     %{
       completed_at: task["completed_date"] |> timestamp_to_datetime(),
