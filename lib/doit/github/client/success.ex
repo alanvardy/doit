@@ -1,4 +1,4 @@
-defmodule Doit.GitHub.Client.Local do
+defmodule Doit.GitHub.Client.Success do
   @moduledoc """
   Mock client for GitHub
   """

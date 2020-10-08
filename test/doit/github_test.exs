@@ -2,6 +2,8 @@ defmodule Doit.GitHubTest do
   use ExUnit.Case
   alias Doit.GitHub
 
+  alias Doit.GitHub.Client.BadResponse
+
   describe "get_notifications/0" do
     test "gets notifications" do
       assert {:ok,
@@ -52,6 +54,26 @@ defmodule Doit.GitHubTest do
                 poll_interval: 60_000,
                 timestamp: "2020-09-27T02:20:55.752557Z"
               }} = GitHub.get_notifications()
+    end
+
+    test "handles bad response" do
+      assert {:error, :bad_response} = GitHub.get_notifications(client: BadResponse)
+    end
+  end
+
+  describe "clear notifications" do
+    test "can successfully clear notifications" do
+      timestamp = DateTime.utc_now() |> DateTime.to_iso8601()
+      assert :ok = GitHub.clear_notifications(timestamp)
+    end
+
+    test "can handle erronous response" do
+      timestamp = DateTime.utc_now() |> DateTime.to_iso8601()
+      assert {:error, :bad_response} = GitHub.clear_notifications(timestamp, client: BadResponse)
+    end
+
+    test "fails if given a nonsense string" do
+      assert {:error, :invalid_format} = GitHub.clear_notifications("nonsense")
     end
   end
 end

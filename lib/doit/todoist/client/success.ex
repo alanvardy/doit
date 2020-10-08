@@ -5,8 +5,10 @@ defmodule Doit.Todoist.Client.Success do
   """
   @behaviour Doit.Todoist.Client
 
+  @impl true
   def create_task(_task), do: :ok
 
+  @impl true
   def completed_items(_) do
     {:ok,
      %{

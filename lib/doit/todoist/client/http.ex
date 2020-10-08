@@ -8,6 +8,7 @@ defmodule Doit.Todoist.Client.HTTP do
   @create_task_url "https://api.todoist.com/sync/v8/sync"
   @completed_item_url "https://api.todoist.com/sync/v8/completed/get_all"
 
+  @impl true
   @spec create_task(map) :: :ok | {:error, :bad_response}
   def create_task(commands) do
     headers = [Accept: "Application/json; Charset=utf-8"]
@@ -24,6 +25,7 @@ defmodule Doit.Todoist.Client.HTTP do
     end
   end
 
+  @impl true
   @spec completed_items(String.t()) :: {:ok, map} | {:error, :bad_response}
   def completed_items(timestamp) do
     headers = [Accept: "Application/json; Charset=utf-8"]

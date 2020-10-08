@@ -5,6 +5,9 @@ defmodule Doit.Todoist.Client.BadResponse do
   """
   @behaviour Doit.Todoist.Client
 
+  @impl true
   def create_task(_task), do: {:error, :bad_response}
+
+  @impl true
   def completed_items(_), do: {:error, :bad_response}
 end
