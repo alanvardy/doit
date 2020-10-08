@@ -7,6 +7,21 @@ defmodule Doit.MixProject do
       version: "0.1.0",
       elixir: "~> 1.10",
       start_permanent: Mix.env() == :prod,
+      dialyzer: [flags: [
+          :no_behaviours,
+          :no_contracts,
+          :no_fail_call,
+          :no_fun_app,
+          :no_improper_lists,
+          :no_match,
+	        :no_missing_calls,
+          :no_opaque,
+	        :no_return,
+          :no_undefined_callbacks,
+          :no_unused,
+          :underspecs,
+          :unknown,
+          :unmatched_returns]],
       deps: deps()
     ]
   end
