@@ -3,6 +3,7 @@ defmodule Doit.GitHub.Client.HTTP do
   The actual client for GitHub
   """
 
+  require Logger
   alias HTTPoison.Response
 
   @behaviour Doit.GitHub.Client
@@ -43,8 +44,12 @@ defmodule Doit.GitHub.Client.HTTP do
     ]
 
     case HTTPoison.put(@notifications_url, "", headers, options) do
-      {:ok, %Response{status_code: 205}} -> :ok
-      {:ok, %Response{status_code: 202}} -> :ok
+      {:ok, %Response{status_code: 205}} ->
+        :ok
+
+      {:ok, %Response{status_code: 202}} ->
+        :ok
+
       error ->
         log_error("clear_notifications/1", [timestamp], error)
         {:error, :bad_response}
@@ -55,12 +60,12 @@ defmodule Doit.GitHub.Client.HTTP do
     Application.fetch_env!(:doit, :github_token)
   end
 
-    defp log_error(function, arguments, error) do
-    Logger.error """
-    Error in module: #{inspect __MODULE__}
-    Function: #{inspect function}
-    Arguments: #{inspect arguments}
-    Error: #{inspect error}
-    """
+  defp log_error(function, arguments, error) do
+    Logger.error("""
+    Error in module: #{inspect(__MODULE__)}
+    Function: #{inspect(function)}
+    Arguments: #{inspect(arguments)}
+    Error: #{inspect(error)}
+    """)
   end
 end
