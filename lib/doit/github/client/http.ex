@@ -23,7 +23,8 @@ defmodule Doit.GitHub.Client.HTTP do
       {:ok, %Response{status_code: 200, body: body, headers: headers}} ->
         {:ok, %{notifications: Jason.decode!(body), headers: headers, timestamp: now}}
 
-      _ ->
+      error ->
+        log_error("notifications/0", [], error)
         {:error, :bad_response}
     end
   end
@@ -44,11 +45,22 @@ defmodule Doit.GitHub.Client.HTTP do
     case HTTPoison.put(@notifications_url, "", headers, options) do
       {:ok, %Response{status_code: 205}} -> :ok
       {:ok, %Response{status_code: 202}} -> :ok
-      _ -> {:error, :bad_response}
+      error ->
+        log_error("clear_notifications/1", [timestamp], error)
+        {:error, :bad_response}
     end
   end
 
   defp github_token do
     Application.fetch_env!(:doit, :github_token)
+  end
+
+    defp log_error(function, arguments, error) do
+    Logger.error """
+    Error in module: #{inspect __MODULE__}
+    Function: #{inspect function}
+    Arguments: #{inspect arguments}
+    Error: #{inspect error}
+    """
   end
 end

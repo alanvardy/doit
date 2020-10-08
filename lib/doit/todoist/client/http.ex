@@ -3,6 +3,7 @@ defmodule Doit.Todoist.Client.HTTP do
   The actual client for GitHub
   """
   alias HTTPoison.Response
+  require Logger
 
   @behaviour Doit.Todoist.Client
   @create_task_url "https://api.todoist.com/sync/v8/sync"
@@ -21,7 +22,9 @@ defmodule Doit.Todoist.Client.HTTP do
 
     case HTTPoison.post(@create_task_url, "", headers, options) do
       {:ok, %Response{status_code: 200}} -> :ok
-      _ -> {:error, :bad_response}
+      error ->
+       log_error("create_task/1", [commands], error)
+        {:error, :bad_response}
     end
   end
 
@@ -38,11 +41,22 @@ defmodule Doit.Todoist.Client.HTTP do
 
     case HTTPoison.post(@completed_item_url, "", headers, options) do
       {:ok, %Response{status_code: 200, body: body}} -> {:ok, Jason.decode!(body)}
-      _ -> {:error, :bad_response}
+      error ->
+        log_error("completed_items/1", [timestamp], error)
+        {:error, :bad_response}
     end
   end
 
   defp todoist_token do
     Application.fetch_env!(:doit, :todoist_token)
+  end
+
+  defp log_error(function, arguments, error) do
+    Logger.error """
+    Error in module: #{inspect __MODULE__}
+    Function: #{inspect function}
+    Arguments: #{inspect arguments}
+    Error: #{inspect error}
+    """
   end
 end
