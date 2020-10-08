@@ -1,4 +1,5 @@
-defmodule Doit.Todoist.Client.Local do
+# credo:disable-for-this-file Credo.Check.Readability.Specs
+defmodule Doit.Todoist.Client.Success do
   @moduledoc """
   Mock client for Todoist
   """

@@ -2,6 +2,7 @@ defmodule Doit.TodoistTest do
   use ExUnit.Case
 
   alias Doit.Todoist
+  alias Doit.Todoist.Client.BadResponse
 
   describe "get_completed_tasks/1" do
     test "can get completed tasks for the last 24 hours" do
@@ -40,6 +41,20 @@ defmodule Doit.TodoistTest do
                  %{completed_at: ~U[2020-10-07 13:11:12Z], content: "Schedule talk with mom"}
                ]
              } = tasks
+    end
+
+    test "can handle an erronous response" do
+      assert {:error, :bad_response} = Todoist.get_completed_tasks(:last_24, client: BadResponse)
+    end
+  end
+
+  describe "create_task/1" do
+    test "can create a task" do
+      assert :ok = Todoist.create_task("something")
+    end
+
+    test "can handle an erronous response" do
+      assert {:error, :bad_response} = Todoist.create_task("something", client: BadResponse)
     end
   end
 end
