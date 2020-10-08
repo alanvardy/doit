@@ -40,7 +40,13 @@ defmodule Doit.Todoist do
   def datetime_to_timestamp(datetime) do
     %{year: year, month: month, day: day, hour: hour, minute: minute} = datetime
 
-    "#{year}-#{month}-#{day}T#{hour}:#{minute}"
+    "#{year}-#{zero_pad(month)}-#{zero_pad(day)}T#{zero_pad(hour)}:#{zero_pad(minute)}"
+  end
+
+  defp zero_pad(number) do
+    number
+    |> Integer.to_string()
+    |> String.pad_leading(2, "0")
   end
 
   defp new_uuid do
