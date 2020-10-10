@@ -9,5 +9,8 @@ defmodule Doit.Todoist.Client.BadResponse do
   def create_task(_task), do: {:error, :bad_response}
 
   @impl true
+  def completed_items(arg, _), do: completed_items(arg)
+
+  @impl true
   def completed_items(_), do: {:error, :bad_response}
 end

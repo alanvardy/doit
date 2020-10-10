@@ -2,10 +2,12 @@ defmodule Doit.Todoist.CompletedTasks do
   @moduledoc """
   Handles processing the completed tasks response
   """
+
+  @type period :: :last_24 | :last_week
   @spec process(map) :: {:ok, any} | {:error, String.t()}
-  def process(%{"items" => tasks, "projects" => projects}) do
+  def process(%{items: items, projects: projects}) do
     result =
-      tasks
+      items
       |> Enum.map(&process_task/1)
       |> Enum.group_by(& &1.project_id, &Map.take(&1, [:content, :completed_at]))
       |> Enum.into(%{}, fn {k, v} -> {get_project_name(k, projects), v} end)
@@ -18,9 +20,15 @@ defmodule Doit.Todoist.CompletedTasks do
   end
 
   # Temporary for printing to terminal
-  @spec pretty_print(map) :: {:ok, map}
-  def pretty_print(task_list) do
-    IO.puts("========= LAST 24 HOURS =========")
+  @spec pretty_print(map, period) :: {:ok, map}
+  def pretty_print(task_list, period) do
+    text =
+      case period do
+        :last_24 -> "LAST 24 HOURS"
+        :last_week -> "LAST WEEK"
+      end
+
+    IO.puts("========= #{text} =========")
 
     for {project, tasks} <- task_list do
       IO.puts("\n== #{project} ==")

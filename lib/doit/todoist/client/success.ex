@@ -9,10 +9,13 @@ defmodule Doit.Todoist.Client.Success do
   def create_task(_task), do: :ok
 
   @impl true
+  def completed_items(arg, _), do: completed_items(arg)
+
+  @impl true
   def completed_items(_) do
     {:ok,
      %{
-       "items" => [
+       items: [
          %{
            "completed_date" => "2020-10-07T13:14:30Z",
            "content" =>
@@ -70,7 +73,7 @@ defmodule Doit.Todoist.Client.Success do
            "user_id" => 635_166
          }
        ],
-       "projects" => %{
+       projects: %{
          "2242995984" => %{
            "child_order" => 4,
            "collapsed" => 0,

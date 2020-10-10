@@ -43,6 +43,10 @@ defmodule Doit.TodoistTest do
              } = tasks
     end
 
+    test "can get completed tasks for the last week hours" do
+      assert {:ok, _tasks} = Todoist.get_completed_tasks(:last_week)
+    end
+
     test "can handle an erronous response" do
       assert {:error, :bad_response} = Todoist.get_completed_tasks(:last_24, client: BadResponse)
     end

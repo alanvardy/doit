@@ -4,7 +4,12 @@ defmodule Doit.Todoist do
   """
   alias Doit.Todoist.{Client, CompletedTasks}
 
+  @type period :: :last_24 | :last_week
+
   @twenty_four_hours_ago -60 * 60 * 24
+  @one_week_ago @twenty_four_hours_ago * 7
+  @periods [:last_24, :last_week]
+
   @default_opts [client: Application.fetch_env!(:doit, :todoist_client)]
 
   @spec create_task(String.t()) :: :ok | {:error, :bad_response}
@@ -15,15 +20,17 @@ defmodule Doit.Todoist do
     |> Client.create_task(opts)
   end
 
-  @spec get_completed_tasks(:last_24) :: {:ok, map} | {:error, String.t()}
-  @spec get_completed_tasks(:last_24, keyword) :: {:ok, map} | {:error, String.t()}
-  def get_completed_tasks(:last_24, opts \\ @default_opts) do
+  @spec get_completed_tasks(period) :: {:ok, map} | {:error, String.t()}
+  @spec get_completed_tasks(period, keyword) :: {:ok, map} | {:error, String.t()}
+  def get_completed_tasks(period, opts \\ @default_opts) when period in @periods do
     timestamp =
-      DateTime.utc_now() |> DateTime.add(@twenty_four_hours_ago) |> datetime_to_timestamp()
+      period
+      |> get_datetime()
+      |> datetime_to_timestamp()
 
     with {:ok, response} <- Client.completed_items(timestamp, opts),
          {:ok, tasks} <- CompletedTasks.process(response) do
-      CompletedTasks.pretty_print(tasks)
+      CompletedTasks.pretty_print(tasks, period)
     end
   end
 
@@ -35,6 +42,10 @@ defmodule Doit.Todoist do
       "args" => %{"content" => task, "project_id" => project_id()}
     }
   end
+
+  @spec get_datetime(:last_24 | :last_week) :: DateTime.t()
+  def get_datetime(:last_24), do: DateTime.add(DateTime.utc_now(), @twenty_four_hours_ago)
+  def get_datetime(:last_week), do: DateTime.add(DateTime.utc_now(), @one_week_ago)
 
   @spec datetime_to_timestamp(DateTime.t()) :: String.t()
   def datetime_to_timestamp(datetime) do
