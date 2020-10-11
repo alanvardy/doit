@@ -3,6 +3,10 @@ defmodule Doit.Todoist.CompletedTasks do
   Handles processing the completed tasks response
   """
 
+  alias Doit.Todoist
+
+  @time_zone Application.get_env(:doit, :time_zone)
+
   @type period :: :last_24 | :last_week
   @spec process(map) :: {:ok, any} | {:error, String.t()}
   def process(%{items: items, projects: projects}) do
@@ -35,7 +39,7 @@ defmodule Doit.Todoist.CompletedTasks do
       IO.puts("\n== #{project} ==")
 
       for %{content: content, completed_at: completed_at} <- tasks do
-        IO.puts(" - #{completed_at} - #{content}")
+        IO.puts(" - #{humanize(completed_at)} - #{content}")
       end
     end
 
@@ -57,5 +61,30 @@ defmodule Doit.Todoist.CompletedTasks do
 
   defp get_project_name(key, projects) do
     get_in(projects, [to_string(key), "name"])
+  end
+
+  defp humanize(%DateTime{} = datetime) do
+    datetime = DateTime.shift_zone!(datetime, @time_zone)
+    %{year: year, month: month, day: day, hour: hour, minute: minute} = datetime
+
+    day_of_week =
+      datetime
+      |> DateTime.to_date()
+      |> Date.day_of_week()
+      |> case do
+        1 -> "Mon"
+        2 -> "Tue"
+        3 -> "Wed"
+        4 -> "Thu"
+        5 -> "Fri"
+        6 -> "Sat"
+        7 -> "Sun"
+      end
+
+    """
+    #{year}-#{Todoist.zero_pad(month)}-#{Todoist.zero_pad(day)} - \
+    #{day_of_week} - \
+    #{Todoist.zero_pad(hour)}:#{Todoist.zero_pad(minute)}\
+    """
   end
 end

@@ -54,7 +54,8 @@ defmodule Doit.Todoist do
     "#{year}-#{zero_pad(month)}-#{zero_pad(day)}T#{zero_pad(hour)}:#{zero_pad(minute)}"
   end
 
-  defp zero_pad(number) do
+  @spec zero_pad(pos_integer) :: String.t()
+  def zero_pad(number) do
     number
     |> Integer.to_string()
     |> String.pad_leading(2, "0")

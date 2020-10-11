@@ -43,6 +43,7 @@ defmodule Doit.MixProject do
       {:httpoison, "~> 1.6"},
       {:jason, "~> 1.2"},
       {:ecto, "~> 3.4"},
+      {:tzdata, "~> 1.0.4"},
       {:typed_struct, "~> 0.2.1"},
       # Tooling
       {:ex_check, "~>0.12", only: :dev, runtime: false},
