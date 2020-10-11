@@ -5,7 +5,7 @@ defmodule Doit.MixProject do
     [
       app: :doit,
       version: "0.1.0",
-      elixir: "~> 1.10",
+      elixir: "~> 1.11",
       start_permanent: Mix.env() == :prod,
       dialyzer: [
         flags: [
