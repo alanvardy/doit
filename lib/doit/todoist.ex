@@ -2,6 +2,7 @@ defmodule Doit.Todoist do
   @moduledoc """
   All things pertaining to calling the Todoist API and interpreting its output
   """
+  alias Doit.Time
   alias Doit.Todoist.{Client, CompletedTasks}
 
   @type period :: :last_24 | :last_week
@@ -26,7 +27,7 @@ defmodule Doit.Todoist do
     timestamp =
       period
       |> get_datetime()
-      |> datetime_to_timestamp()
+      |> Time.datetime_to_timestamp()
 
     with {:ok, response} <- Client.completed_items(timestamp, opts),
          {:ok, tasks} <- CompletedTasks.process(response) do
@@ -46,20 +47,6 @@ defmodule Doit.Todoist do
   @spec get_datetime(:last_24 | :last_week) :: DateTime.t()
   def get_datetime(:last_24), do: DateTime.add(DateTime.utc_now(), @twenty_four_hours_ago)
   def get_datetime(:last_week), do: DateTime.add(DateTime.utc_now(), @one_week_ago)
-
-  @spec datetime_to_timestamp(DateTime.t()) :: String.t()
-  def datetime_to_timestamp(datetime) do
-    %{year: year, month: month, day: day, hour: hour, minute: minute} = datetime
-
-    "#{year}-#{zero_pad(month)}-#{zero_pad(day)}T#{zero_pad(hour)}:#{zero_pad(minute)}"
-  end
-
-  @spec zero_pad(pos_integer) :: String.t()
-  def zero_pad(number) do
-    number
-    |> Integer.to_string()
-    |> String.pad_leading(2, "0")
-  end
 
   defp new_uuid do
     Ecto.UUID.generate()
