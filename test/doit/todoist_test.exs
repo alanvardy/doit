@@ -11,16 +11,16 @@ defmodule Doit.TodoistTest do
       assert %{
                "Exchanger" => [
                  %{
-                   completed_at: ~U[2020-10-07 02:59:32Z],
-                   content: "Use middleware for change set errors"
+                   completed_at: ~U[2020-10-07 02:02:24Z],
+                   content: "Resolve N +1 wallet fetching with `aggregate_balances/3`"
                  },
                  %{
                    completed_at: ~U[2020-10-07 02:15:37Z],
                    content: "resolve subscription order issue"
                  },
                  %{
-                   completed_at: ~U[2020-10-07 02:02:24Z],
-                   content: "Resolve N +1 wallet fetching with `aggregate_balances/3`"
+                   completed_at: ~U[2020-10-07 02:59:32Z],
+                   content: "Use middleware for change set errors"
                  }
                ],
                "doit" => [

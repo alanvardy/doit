@@ -9,6 +9,7 @@ defmodule Doit.Todoist.CompletedTasks do
     result =
       items
       |> Enum.map(&process_task/1)
+      |> Enum.sort(&(&1.completed_at <= &2.completed_at))
       |> Enum.group_by(& &1.project_id, &Map.take(&1, [:content, :completed_at]))
       |> Enum.into(%{}, fn {k, v} -> {get_project_name(k, projects), v} end)
 
