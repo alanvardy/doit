@@ -7,15 +7,15 @@ defmodule Doit.Todoist do
 
   @type period :: :last_24 | :last_week
 
-  @twenty_four_hours_ago -60 * 60 * 24
-  @one_week_ago @twenty_four_hours_ago * 7
   @periods [:last_24, :last_week]
 
   @default_opts [client: Application.fetch_env!(:doit, :todoist_client)]
 
   @spec create_task(String.t()) :: :ok | {:error, :bad_response}
   @spec create_task(String.t(), keyword) :: :ok | {:error, :bad_response}
-  def create_task(task, opts \\ @default_opts) when is_bitstring(task) do
+  def create_task(task, opts \\ []) when is_bitstring(task) do
+    opts = Keyword.merge(@default_opts, opts)
+
     task
     |> task_to_command()
     |> Client.create_task(opts)
@@ -23,10 +23,12 @@ defmodule Doit.Todoist do
 
   @spec get_completed_tasks(period) :: {:ok, map} | {:error, String.t()}
   @spec get_completed_tasks(period, keyword) :: {:ok, map} | {:error, String.t()}
-  def get_completed_tasks(period, opts \\ @default_opts) when period in @periods do
+  def get_completed_tasks(period, opts \\ []) when period in @periods do
+    opts = Keyword.merge(@default_opts, opts)
+
     timestamp =
       period
-      |> get_datetime()
+      |> Time.get_datetime()
       |> Time.datetime_to_timestamp()
 
     with {:ok, response} <- Client.completed_items(timestamp, opts),
@@ -43,10 +45,6 @@ defmodule Doit.Todoist do
       "args" => %{"content" => task, "project_id" => project_id()}
     }
   end
-
-  @spec get_datetime(:last_24 | :last_week) :: DateTime.t()
-  def get_datetime(:last_24), do: DateTime.add(DateTime.utc_now(), @twenty_four_hours_ago)
-  def get_datetime(:last_week), do: DateTime.add(DateTime.utc_now(), @one_week_ago)
 
   defp new_uuid do
     Ecto.UUID.generate()

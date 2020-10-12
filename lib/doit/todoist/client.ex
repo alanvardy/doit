@@ -11,12 +11,14 @@ defmodule Doit.Todoist.Client do
   @default_opts [client: Application.fetch_env!(:doit, :github_client)]
 
   @spec create_task(map, keyword) :: :ok | {:error, :bad_response}
-  def create_task(commands, opts \\ @default_opts) do
+  def create_task(commands, opts \\ []) do
+    opts = Keyword.merge(@default_opts, opts)
     opts[:client].create_task(commands)
   end
 
   @spec completed_items(String.t(), keyword) :: {:ok, map} | {:error, :bad_response}
-  def completed_items(timestamp, opts \\ @default_opts) do
+  def completed_items(timestamp, opts \\ []) do
+    opts = Keyword.merge(@default_opts, opts)
     opts[:client].completed_items(timestamp)
   end
 end

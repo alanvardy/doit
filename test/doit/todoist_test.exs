@@ -2,7 +2,7 @@ defmodule Doit.TodoistTest do
   use ExUnit.Case
 
   alias Doit.Todoist
-  alias Doit.Todoist.Client.BadResponse
+  alias Doit.Todoist.Client.{BadResponse, Pagination}
 
   describe "get_completed_tasks/1" do
     test "can get completed tasks for the last 24 hours" do

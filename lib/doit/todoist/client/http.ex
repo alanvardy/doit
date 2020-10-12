@@ -38,8 +38,11 @@ defmodule Doit.Todoist.Client.HTTP do
 
   @impl true
   @spec completed_items(String.t(), keyword) :: resp
+
   @spec completed_items(String.t()) :: resp
-  def completed_items(timestamp, opts \\ @default_opts) do
+  def completed_items(timestamp, opts \\ []) do
+    opts = Keyword.merge(@default_opts, opts)
+
     offset = opts[:offset]
 
     headers = [Accept: "Application/json; Charset=utf-8"]

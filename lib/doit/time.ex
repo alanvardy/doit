@@ -3,6 +3,8 @@ defmodule Doit.Time do
   Handles time conversion and pretty printing
   """
   @time_zone Application.get_env(:doit, :time_zone)
+  @twenty_four_hours_ago -60 * 60 * 24
+  @one_week_ago @twenty_four_hours_ago * 7
 
   @type timestamp :: String.t()
 
@@ -32,6 +34,10 @@ defmodule Doit.Time do
 
     "#{year}-#{zero_pad(month)}-#{zero_pad(day)}T#{zero_pad(hour)}:#{zero_pad(minute)}"
   end
+
+  @spec get_datetime(:last_24 | :last_week) :: DateTime.t()
+  def get_datetime(:last_24), do: DateTime.add(DateTime.utc_now(), @twenty_four_hours_ago)
+  def get_datetime(:last_week), do: DateTime.add(DateTime.utc_now(), @one_week_ago)
 
   defp day_of_week(%DateTime{} = datetime) do
     datetime

@@ -7,7 +7,9 @@ defmodule Doit.GitHub do
 
   @spec get_notifications :: {:ok, Doit.GitHub.Response.t()} | {:error, :bad_response}
   @spec get_notifications(keyword) :: {:ok, Doit.GitHub.Response.t()} | {:error, :bad_response}
-  def get_notifications(opts \\ @default_opts) do
+  def get_notifications(opts \\ []) do
+    opts = Keyword.merge(@default_opts, opts)
+
     with {:ok, response} <- Client.notifications(opts) do
       {:ok, format_response(response)}
     end
@@ -15,7 +17,9 @@ defmodule Doit.GitHub do
 
   @spec clear_notifications(String.t()) :: :ok | {:error, :bad_response}
   @spec clear_notifications(String.t(), keyword) :: :ok | {:error, :bad_response}
-  def clear_notifications(timestamp, opts \\ @default_opts) do
+  def clear_notifications(timestamp, opts \\ []) do
+    opts = Keyword.merge(@default_opts, opts)
+
     with {:ok, _, _} <- DateTime.from_iso8601(timestamp) do
       Client.clear_notifications(timestamp, opts)
     end
