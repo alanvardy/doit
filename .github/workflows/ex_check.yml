@@ -24,7 +24,7 @@ jobs:
       - run: cp config/dev.exs.example config/dev.exs
       - uses: actions/setup-elixir@v1.0.0
         with:
-          otp-version: 23.0
-          elixir-version: 1.11.0
+          otp-version: '23.0'
+          elixir-version: '1.11.0'
       - run: mix deps.get
       - run: MIX_ENV=dev mix check
