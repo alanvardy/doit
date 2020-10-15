@@ -1,5 +1,10 @@
 use Mix.Config
 
+config :doit,
+  github_client: Doit.GitHub.Client.Success,
+  todoist_client: Doit.Todoist.Client.Success,
+  default_project: "123456789"
+
 # Configure your database
 #
 # The MIX_TEST_PARTITION environment variable can be used

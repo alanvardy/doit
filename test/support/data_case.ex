@@ -15,6 +15,7 @@ defmodule Doit.DataCase do
   """
 
   use ExUnit.CaseTemplate
+  alias Ecto.Adapters.SQL.Sandbox
 
   using do
     quote do
@@ -28,10 +29,10 @@ defmodule Doit.DataCase do
   end
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Doit.Repo)
+    :ok = Sandbox.checkout(Doit.Repo)
 
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(Doit.Repo, {:shared, self()})
+      Sandbox.mode(Doit.Repo, {:shared, self()})
     end
 
     :ok
@@ -40,11 +41,12 @@ defmodule Doit.DataCase do
   @doc """
   A helper that transforms changeset errors into a map of messages.
 
-      assert {:error, changeset} = Accounts.create_user(%{password: "short"})
-      assert "password is too short" in errors_on(changeset).password
-      assert %{password: ["password is too short"]} = errors_on(changeset)
+  assert {:error, changeset} = Accounts.create_user(%{password: "short"})
+  assert "password is too short" in errors_on(changeset).password
+  assert %{password: ["password is too short"]} = errors_on(changeset)
 
   """
+  @spec errors_on(Ecto.Changeset.t()) :: %{optional(atom) => [binary | map]}
   def errors_on(changeset) do
     Ecto.Changeset.traverse_errors(changeset, fn {message, opts} ->
       Regex.replace(~r"%{(\w+)}", message, fn _, key ->

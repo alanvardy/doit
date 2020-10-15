@@ -8,7 +8,12 @@
 use Mix.Config
 
 config :doit,
-  ecto_repos: [Doit.Repo]
+  ecto_repos: [Doit.Repo],
+  github_client: Doit.GitHub.Client.HTTP,
+  todoist_client: Doit.Todoist.Client.HTTP,
+  time_zone: "America/Los_Angeles"
+
+config :elixir, time_zone_database: Tzdata.TimeZoneDatabase
 
 # Configures the endpoint
 config :doit, DoitWeb.Endpoint,

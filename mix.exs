@@ -5,10 +5,28 @@ defmodule Doit.MixProject do
     [
       app: :doit,
       version: "0.1.0",
-      elixir: "~> 1.7",
+      elixir: "~> 1.10",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
+      dialyzer: [
+        flags: [
+          :no_behaviours,
+          :no_contracts,
+          :no_fail_call,
+          :no_fun_app,
+          :no_improper_lists,
+          :no_match,
+          :no_missing_calls,
+          :no_opaque,
+          :no_return,
+          :no_undefined_callbacks,
+          :no_unused,
+          :underspecs,
+          :unknown,
+          :unmatched_returns
+        ]
+      ],
       aliases: aliases(),
       deps: deps()
     ]
@@ -44,7 +62,14 @@ defmodule Doit.MixProject do
       {:telemetry_poller, "~> 0.4"},
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
-      {:plug_cowboy, "~> 2.0"}
+      {:plug_cowboy, "~> 2.0"},
+      {:httpoison, "~> 1.6"},
+      {:tzdata, "~> 1.0.4"},
+      {:typed_struct, "~> 0.2.1"},
+      # Tooling
+      {:ex_check, "~>0.12", only: :dev, runtime: false},
+      {:credo, "~> 1.4.0", only: [:dev, :test], runtime: false},
+      {:dialyxir, "~> 1.0.0-rc.6", only: [:dev, :test], runtime: false}
     ]
   end
 
