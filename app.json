@@ -1,0 +1,14 @@
+{
+  "name": "doit",
+  "description": "Aggressively send your GitHub notifications to Todoist in soft-realtime.",
+  "keywords": [
+    "dokku",
+    "elixir",
+    "phoenix"
+  ],
+  "scripts": {
+    "dokku": {
+      "postdeploy": "mix ecto.migrate"
+    }
+  }
+}

@@ -5,6 +5,32 @@ config :doit,
   todoist_token: System.fetch_env!("TODOIST_TOKEN"),
   default_project: System.fetch_env!("DEFAULT_PROJECT")
 
+database_url =
+  System.get_env("DATABASE_URL") ||
+    raise """
+    environment variable DATABASE_URL is missing.
+    For example: ecto://USER:PASS@HOST/DATABASE
+    """
+
+secret_key_base =
+  System.get_env("SECRET_KEY_BASE") ||
+    raise """
+    environment variable SECRET_KEY_BASE is missing.
+    You can generate one by calling: mix phx.gen.secret
+    """
+
+port =
+  System.get_env("PORT") ||
+    raise """
+    environment variable PORT is missing.
+    """
+
+web_host =
+  System.get_env("WEB_HOST") ||
+    raise """
+    environment variable PORT is missing.
+    """
+
 # For production, don't forget to configure the url host
 # to something meaningful, Phoenix uses this information
 # when generating URLs.
@@ -15,8 +41,16 @@ config :doit,
 # which you should run after static files are built and
 # before starting your production server.
 config :doit, DoitWeb.Endpoint,
-  url: [host: "example.com", port: 80],
-  cache_static_manifest: "priv/static/cache_manifest.json"
+  http: [:inet6, port: String.to_integer(port), transport_options: [socket_opts: [:inet6]]],
+  url: [host: web_host, port: 5000],
+  load_from_system_env: true,
+  cache_static_manifest: "priv/static/cache_manifest.json",
+  secret_key_base: secret_key_base
+
+config :doit, Doit.Repo,
+  # ssl: true,
+  url: database_url,
+  pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10")
 
 # Do not print debug messages in production
 config :logger, level: :info
@@ -57,4 +91,13 @@ config :logger, level: :info
 
 # Finally import the config/prod.secret.exs which loads secrets
 # and configuration from environment variables.
-import_config "prod.secret.exs"
+
+# ## Using releases (Elixir v1.9+)
+#
+# If you are doing OTP releases, you need to instruct Phoenix
+# to start each relevant endpoint:
+#
+#     config :doit, DoitWeb.Endpoint, server: true
+#
+# Then you can assemble a release by calling `mix release`.
+# See `mix help release` for more information.
