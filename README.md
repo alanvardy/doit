@@ -5,4 +5,14 @@
 
 Aggressively send your GitHub notifications to Todoist in soft-realtime.
 
+### Getting set up
+
+```
+git clone git@github.com:alanvardy/doit.git
+cd doit
+mix deps.get
+docker-compose up -d
+mix check # Run the test suite
+```
+
 _This code is not created by, affiliated with, or supported by Doist_
