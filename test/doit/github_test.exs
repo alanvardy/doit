@@ -1,5 +1,5 @@
 defmodule Doit.GitHubTest do
-  use ExUnit.Case
+  use Doit.DataCase, async: true
   alias Doit.GitHub
 
   alias Doit.GitHub.Client.BadResponse

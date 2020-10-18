@@ -5,12 +5,12 @@ defmodule Doit.Todoist.Client do
 
   @type resp :: {:ok, %{items: [map], projects: map}} | {:error, :bad_response}
 
-  @callback create_task(map) :: :ok | {:error, :bad_response}
+  @callback create_task([map]) :: :ok | {:error, :bad_response}
   @callback completed_items(String.t()) :: resp
   @callback completed_items(String.t(), keyword) :: resp
   @default_opts [client: Application.fetch_env!(:doit, :github_client)]
 
-  @spec create_task(map, keyword) :: :ok | {:error, :bad_response}
+  @spec create_task([map], keyword) :: :ok | {:error, :bad_response}
   def create_task(commands, opts \\ []) do
     opts = Keyword.merge(@default_opts, opts)
     opts[:client].create_task(commands)
