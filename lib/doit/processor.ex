@@ -51,7 +51,7 @@ defmodule Doit.Processor do
   @impl true
   # There are more tasks to process
   def handle_info(:process, %{tasks: [head | tail]} = state) do
-    case Todoist.create_task(head) do
+    case Todoist.create_task(%{task: head}) do
       :ok ->
         Logger.info("Created Todoist task: #{head}")
         Process.send_after(__MODULE__, :process, @todoist_delay_per_task, [])

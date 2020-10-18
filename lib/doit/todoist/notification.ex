@@ -5,8 +5,11 @@ defmodule Doit.Todoist.Notification do
   """
   use Ecto.Schema
   import Ecto.Changeset
+  import Ecto.Query
 
   @timestamps_opts [type: :utc_datetime]
+  @twenty_four_hours 60 * 60 * -24
+
   @type type :: :last_24 | :last_week
 
   schema "notifications" do
@@ -22,5 +25,14 @@ defmodule Doit.Todoist.Notification do
     %__MODULE__{}
     |> cast(attrs, [:type, :data])
     |> validate_required([:type, :data])
+  end
+
+  def where_type(queryable \\ __MODULE__, type) do
+    where(queryable, [q], q.type == ^type)
+  end
+
+  def where_created_last_24_hours(queryable \\ __MODULE__) do
+    twenty_four_hours_ago = DateTime.add(DateTime.utc_now(), @twenty_four_hours)
+    where(queryable, [q], q.inserted_at >= ^twenty_four_hours_ago)
   end
 end
