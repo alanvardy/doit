@@ -37,10 +37,14 @@ defmodule Doit.Application do
   end
 
   def manual_start_in_test do
-    if Mix.env() == :test do
+    if test?() do
       []
     else
       [{Doit.PeriodicJob, []}]
     end
+  end
+
+  defp test? do
+    Application.get_env(:doit, :env) == :test
   end
 end

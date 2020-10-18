@@ -2,8 +2,8 @@ defmodule Doit.TodoistTest do
   use Doit.DataCase, async: true
 
   alias Doit.{Repo, Todoist}
-  alias Doit.Todoist.Notification
   alias Doit.Todoist.Client.BadResponse
+  alias Doit.Todoist.Notification
 
   describe "get_completed_tasks/1" do
     test "can get completed tasks for the last 24 hours" do

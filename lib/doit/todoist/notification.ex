@@ -27,15 +27,21 @@ defmodule Doit.Todoist.Notification do
     |> validate_required([:type, :data])
   end
 
+  @spec where_type(type) :: Ecto.Query.t()
+  @spec where_type(Ecto.Queryable.t(), type) :: Ecto.Query.t()
   def where_type(queryable \\ __MODULE__, type) do
     where(queryable, [q], q.type == ^type)
   end
 
+  @spec where_created_last_24_hours :: Ecto.Query.t()
+  @spec where_created_last_24_hours(Ecto.Queryable.t()) :: Ecto.Query.t()
   def where_created_last_24_hours(queryable \\ __MODULE__) do
     twenty_four_hours_ago = DateTime.add(DateTime.utc_now(), @twenty_four_hours)
     where(queryable, [q], q.inserted_at >= ^twenty_four_hours_ago)
   end
 
+  @spec select_inserted_at :: Ecto.Query.t()
+  @spec select_inserted_at(Ecto.Queryable.t()) :: Ecto.Query.t()
   def select_inserted_at(queryable \\ __MODULE__) do
     select(queryable, [q], q.inserted_at)
   end
