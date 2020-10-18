@@ -39,6 +39,23 @@ defmodule Doit.Time do
   def get_datetime(:last_24), do: DateTime.add(DateTime.utc_now(), @twenty_four_hours_ago)
   def get_datetime(:last_week), do: DateTime.add(DateTime.utc_now(), @one_week_ago)
 
+  @spec today?(DateTime.t()) :: boolean
+  def today?(datetime) do
+    if to_local_date(datetime) == to_local_date(DateTime.utc_now()) do
+      true
+    else
+      false
+    end
+  end
+
+  @spec monday? :: boolean
+  def monday? do
+    DateTime.utc_now()
+    |> to_local_date()
+    |> Date.day_of_week()
+    |> Kernel.==(1)
+  end
+
   defp day_of_week(%DateTime{} = datetime) do
     datetime
     |> DateTime.to_date()
@@ -52,6 +69,10 @@ defmodule Doit.Time do
       6 -> "Sat"
       7 -> "Sun"
     end
+  end
+
+  defp to_local_date(%DateTime{} = datetime) do
+    datetime |> to_local() |> DateTime.to_date()
   end
 
   defp to_local(%DateTime{} = datetime) do

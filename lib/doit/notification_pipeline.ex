@@ -1,4 +1,4 @@
-defmodule Doit.Processor do
+defmodule Doit.NotificationPipeline do
   @moduledoc "Gets notifications from Github and sends them to Todoist"
   use GenServer
   require Logger

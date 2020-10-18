@@ -35,4 +35,8 @@ defmodule Doit.Todoist.Notification do
     twenty_four_hours_ago = DateTime.add(DateTime.utc_now(), @twenty_four_hours)
     where(queryable, [q], q.inserted_at >= ^twenty_four_hours_ago)
   end
+
+  def select_inserted_at(queryable \\ __MODULE__) do
+    select(queryable, [q], q.inserted_at)
+  end
 end
