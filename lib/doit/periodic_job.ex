@@ -28,11 +28,11 @@ defmodule Doit.PeriodicJob do
   def handle_info(:run, state) do
     cond do
       Todoist.time_to_send_weekly_summary?() ->
-        :ok = Todoist.send_completed_tasks(:last_week)
+        Todoist.send_completed_tasks(:last_week)
         loop(@one_minute)
 
       Todoist.time_to_send_daily_summary?() ->
-        :ok = Todoist.send_completed_tasks(:last_24)
+        Todoist.send_completed_tasks(:last_24)
         loop(@five_minutes)
 
       true ->
