@@ -40,8 +40,7 @@ defmodule Doit.Application do
     if test?() do
       []
     else
-      []
-      # [{Doit.PeriodicJob, []}]
+      [{Doit.PeriodicJob, []}]
     end
   end
 
