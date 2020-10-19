@@ -42,36 +42,30 @@ defmodule Doit.Todoist do
     end
   end
 
-  @spec time_to_send_daily_summary? :: boolean
-  def time_to_send_daily_summary? do
+  @spec time_to_send_daily_summary?(keyword) :: boolean
+  def time_to_send_daily_summary?(opts \\ []) do
     :last_24
     |> Notification.where_type()
-    |> Notification.where_created_last_24_hours()
+    |> Notification.where_created_last_24_hours(opts)
     |> Notification.select_inserted_at()
     |> Repo.one()
     |> case do
-      nil ->
-        true
-
-      datetime ->
-        if Time.today?(datetime), do: false, else: true
+      nil -> true
+      datetime -> if Time.today?(datetime, opts), do: false, else: true
     end
   end
 
-  @spec time_to_send_weekly_summary? :: boolean
-  def time_to_send_weekly_summary? do
-    if Time.monday?() do
+  @spec time_to_send_weekly_summary?(keyword) :: boolean
+  def time_to_send_weekly_summary?(opts \\ []) do
+    if Time.monday?(opts) do
       :last_week
       |> Notification.where_type()
-      |> Notification.where_created_last_24_hours()
+      |> Notification.where_created_last_24_hours(opts)
       |> Notification.select_inserted_at()
       |> Repo.one()
       |> case do
-        nil ->
-          true
-
-        datetime ->
-          if Time.today?(datetime), do: false, else: true
+        nil -> true
+        datetime -> if Time.today?(datetime, opts), do: false, else: true
       end
     else
       false

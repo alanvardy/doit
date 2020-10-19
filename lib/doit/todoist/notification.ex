@@ -35,9 +35,14 @@ defmodule Doit.Todoist.Notification do
 
   @spec where_created_last_24_hours :: Ecto.Query.t()
   @spec where_created_last_24_hours(Ecto.Queryable.t()) :: Ecto.Query.t()
-  def where_created_last_24_hours(queryable \\ __MODULE__) do
-    twenty_four_hours_ago = DateTime.add(DateTime.utc_now(), @twenty_four_hours)
-    where(queryable, [q], q.inserted_at >= ^twenty_four_hours_ago)
+  @spec where_created_last_24_hours(Ecto.Queryable.t(), keyword) :: Ecto.Query.t()
+  def where_created_last_24_hours(queryable \\ __MODULE__, opts \\ []) do
+    if Keyword.get(opts, :current_datetime) do
+      queryable
+    else
+      twenty_four_hours_ago = DateTime.add(DateTime.utc_now(), @twenty_four_hours)
+      where(queryable, [q], q.inserted_at >= ^twenty_four_hours_ago)
+    end
   end
 
   @spec select_inserted_at :: Ecto.Query.t()

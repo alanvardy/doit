@@ -40,17 +40,23 @@ defmodule Doit.Time do
   def get_datetime(:last_week), do: DateTime.add(DateTime.utc_now(), @one_week_ago)
 
   @spec today?(DateTime.t()) :: boolean
-  def today?(datetime) do
-    if to_local_date(datetime) == to_local_date(DateTime.utc_now()) do
+  @spec today?(DateTime.t(), keyword) :: boolean
+  def today?(datetime, opts \\ []) do
+    with nil <- Keyword.get(opts, :current_datetime),
+         true <- to_local_date(datetime) == to_local_date(DateTime.utc_now()) do
       true
     else
-      false
+      false -> false
+      # Test override
+      %DateTime{} -> true
     end
   end
 
   @spec monday? :: boolean
-  def monday? do
-    DateTime.utc_now()
+  @spec monday?(keyword) :: boolean
+  def monday?(opts \\ []) do
+    opts
+    |> Keyword.get(:current_datetime, DateTime.utc_now())
     |> to_local_date()
     |> Date.day_of_week()
     |> Kernel.==(1)

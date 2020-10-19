@@ -11,38 +11,49 @@ defmodule Doit.PeriodicJob do
 
   # Client
 
-  @spec start_link(any) :: {:ok, pid}
-  def start_link(state) do
-    GenServer.start_link(__MODULE__, state, name: __MODULE__)
+  @spec start_link(keyword) :: {:ok, pid}
+  def start_link(opts \\ []) do
+    GenServer.start_link(__MODULE__, opts, name: __MODULE__)
   end
 
   # Server (callbacks)
 
   @impl true
-  def init(state) do
+  @spec init(keyword) :: {:ok, any}
+  def init(opts) do
     loop(50)
-    {:ok, state}
+    {:ok, opts}
   end
 
   @impl true
-  def handle_info(:run, state) do
+  def handle_info(:run, opts) do
     cond do
-      Todoist.time_to_send_weekly_summary?() ->
-        Todoist.send_completed_tasks(:last_week)
-        loop(@one_minute)
-
-      Todoist.time_to_send_daily_summary?() ->
-        Todoist.send_completed_tasks(:last_24)
-        loop(@five_minutes)
-
-      true ->
-        loop(@fifteen_minutes)
+      Todoist.time_to_send_weekly_summary?(opts) -> send_completed_tasks(:last_week, opts)
+      Todoist.time_to_send_daily_summary?(opts) -> send_completed_tasks(:last_24, opts)
+      true -> loop(@fifteen_minutes)
     end
 
-    {:noreply, state}
+    {:noreply, opts}
   end
 
   defp loop(delay) do
+    delay =
+      case Application.get_env(:doit, :env) do
+        :test -> 50
+        _ -> delay
+      end
+
     Process.send_after(__MODULE__, :run, delay, [])
+  end
+
+  defp send_completed_tasks(period, opts) do
+    case Todoist.send_completed_tasks(period, opts) do
+      :ok ->
+        loop(@one_minute)
+
+      error ->
+        Logger.error("Cannot send completed task. Period: #{period}, error: #{inspect(error)}")
+        loop(@five_minutes)
+    end
   end
 end
