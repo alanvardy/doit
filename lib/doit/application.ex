@@ -36,6 +36,7 @@ defmodule Doit.Application do
     :ok
   end
 
+  @spec manual_start_in_test :: [{Doit.PeriodicJob, []}]
   def manual_start_in_test do
     if test?() do
       []
