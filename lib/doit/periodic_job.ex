@@ -27,10 +27,11 @@ defmodule Doit.PeriodicJob do
 
   @impl true
   def handle_info(:run, opts) do
-    cond do
-      Todoist.time_to_send_weekly_summary?(opts) -> send_completed_tasks(:last_week, opts)
-      Todoist.time_to_send_daily_summary?(opts) -> send_completed_tasks(:last_24, opts)
-      true -> loop(@fifteen_minutes)
+    # To doist.time_to_send_weekly_summary?(opts) -> send_completed_tasks(:last_week, opts)
+    if Todoist.time_to_send_daily_summary?(opts) do
+      send_completed_tasks(:last_24, opts)
+    else
+      loop(@fifteen_minutes)
     end
 
     {:noreply, opts}

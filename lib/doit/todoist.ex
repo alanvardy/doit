@@ -6,7 +6,7 @@ defmodule Doit.Todoist do
   alias Doit.Todoist.{Client, CompletedTasks, Notification}
 
   @type period :: :last_24 | :last_week
-  @type params :: %{task: String.t()} | %{task: String.t(), note: String.t()}
+  @type params :: %{task: String.t()} | %{task: String.t(), notes: [String.t()]}
 
   @periods [:last_24, :last_week]
 
@@ -34,8 +34,8 @@ defmodule Doit.Todoist do
 
     with {:ok, response} <- Client.completed_items(timestamp, opts),
          {:ok, tasks} <- CompletedTasks.process(response),
-         note <- CompletedTasks.pretty_print(tasks, period),
-         params <- %{task: get_text(period), note: note},
+         notes <- CompletedTasks.pretty_print(tasks, period),
+         params <- %{task: get_text(period), notes: notes},
          :ok <- create_task(params),
          {:ok, _notification} <- create_notification(%{data: params, type: period}) do
       :ok
@@ -78,7 +78,7 @@ defmodule Doit.Todoist do
     |> Repo.insert()
   end
 
-  defp task_to_command(%{task: task, note: note}) do
+  defp task_to_command(%{task: task, notes: notes}) do
     item_id = new_uuid()
 
     [
@@ -87,13 +87,15 @@ defmodule Doit.Todoist do
         "temp_id" => item_id,
         "uuid" => new_uuid(),
         "args" => %{"content" => task, "project_id" => project_id()}
-      },
-      %{
-        "type" => "note_add",
-        "temp_id" => new_uuid(),
-        "uuid" => new_uuid(),
-        "args" => %{"content" => note, "item_id" => item_id}
       }
+      | for note <- notes do
+          %{
+            "type" => "note_add",
+            "temp_id" => new_uuid(),
+            "uuid" => new_uuid(),
+            "args" => %{"content" => note, "item_id" => item_id}
+          }
+        end
     ]
   end
 

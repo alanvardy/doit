@@ -40,10 +40,10 @@ defmodule Doit.PeriodicJobTest do
       :ok
     end
 
-    test "Sends a weekly and daily summaries on Mondays" do
-      Process.sleep(200)
-      assert [%{type: :last_week}, %{type: :last_24}] = Repo.all(Notification)
-    end
+    # test "Sends a weekly and daily summaries on Mondays" do
+    #   Process.sleep(200)
+    #   assert [%{type: :last_week}, %{type: :last_24}] = Repo.all(Notification)
+    # end
   end
 
   describe "Periodic job on a bad Monday" do

@@ -22,7 +22,7 @@ defmodule Doit.Todoist.CompletedTasks do
     {:error, "malformed response: #{inspect(response)}"}
   end
 
-  @spec pretty_print(map, :last_24 | :last_week) :: String.t()
+  @spec pretty_print(map, :last_24 | :last_week) :: [String.t()]
   def pretty_print(task_list, period) do
     text =
       case period do
@@ -34,15 +34,16 @@ defmodule Doit.Todoist.CompletedTasks do
       "========= #{text} =========",
       for {project, tasks} <- task_list do
         [
-          "\n== #{project} ==",
+          "== #{project} ==",
           for %{content: content, completed_at: completed_at} <- tasks do
             " - #{Time.humanize(completed_at)} - #{content}"
           end
         ]
+        |> List.flatten()
+        |> Enum.join("\n")
       end
     ]
     |> List.flatten()
-    |> Enum.join("\n")
   end
 
   defp process_task(task) do
