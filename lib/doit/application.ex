@@ -13,7 +13,7 @@ defmodule Doit.Application do
         Doit.Repo,
         # Start the Telemetry supervisor
         DoitWeb.Telemetry,
-        # {Doit.NotificationPipeline, []},
+        {Doit.NotificationPipeline, []},
         # Start the PubSub system
         {Phoenix.PubSub, name: Doit.PubSub},
         # Start the Endpoint (http/https)
@@ -40,7 +40,8 @@ defmodule Doit.Application do
     if test?() do
       []
     else
-      [{Doit.PeriodicJob, []}]
+      []
+      # [{Doit.PeriodicJob, []}]
     end
   end
 
