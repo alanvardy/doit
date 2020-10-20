@@ -45,6 +45,12 @@ defmodule Doit.Todoist.Notification do
     end
   end
 
+  @spec order_by_inserted_at :: Ecto.Query.t()
+  @spec order_by_inserted_at(Ecto.Queryable.t()) :: Ecto.Query.t()
+  def order_by_inserted_at(queryable \\ __MODULE__) do
+    order_by(queryable, [q], desc: q.inserted_at)
+  end
+
   @spec select_inserted_at :: Ecto.Query.t()
   @spec select_inserted_at(Ecto.Queryable.t()) :: Ecto.Query.t()
   def select_inserted_at(queryable \\ __MODULE__) do

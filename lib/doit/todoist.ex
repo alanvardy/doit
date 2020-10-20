@@ -47,11 +47,12 @@ defmodule Doit.Todoist do
     :last_24
     |> Notification.where_type()
     |> Notification.where_created_last_24_hours(opts)
+    |> Notification.order_by_inserted_at()
     |> Notification.select_inserted_at()
-    |> Repo.one()
+    |> Repo.all()
     |> case do
-      nil -> true
-      datetime -> if Time.today?(datetime, opts), do: false, else: true
+      [] -> true
+      [datetime | _] -> if Time.today?(datetime, opts), do: false, else: true
     end
   end
 
@@ -61,11 +62,12 @@ defmodule Doit.Todoist do
       :last_week
       |> Notification.where_type()
       |> Notification.where_created_last_24_hours(opts)
+      |> Notification.order_by_inserted_at()
       |> Notification.select_inserted_at()
-      |> Repo.one()
+      |> Repo.all()
       |> case do
-        nil -> true
-        datetime -> if Time.today?(datetime, opts), do: false, else: true
+        [] -> true
+        [datetime | _] -> if Time.today?(datetime, opts), do: false, else: true
       end
     else
       false
