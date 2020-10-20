@@ -12,7 +12,6 @@ defmodule Doit.TodoistTest do
 
       assert %{
                "notes" => [
-                 "========= LAST 24 HOURS =========",
                  """
                  == Exchanger ==
                   - 2020-10-06 - Tue - 19:02 - Resolve N +1 wallet fetching with `aggregate_balances/3`
@@ -42,7 +41,6 @@ defmodule Doit.TodoistTest do
 
       assert %{
                "notes" => [
-                 "========= LAST WEEK =========",
                  """
                  == Exchanger ==
                   - 2020-10-06 - Tue - 19:02 - Resolve N +1 wallet fetching with `aggregate_balances/3`

@@ -34,7 +34,7 @@ defmodule Doit.Todoist do
 
     with {:ok, response} <- Client.completed_items(timestamp, opts),
          {:ok, tasks} <- CompletedTasks.process(response),
-         notes <- CompletedTasks.pretty_print(tasks, period),
+         notes <- CompletedTasks.pretty_print(tasks),
          params <- %{task: get_text(period), notes: notes},
          :ok <- create_task(params),
          {:ok, _notification} <- create_notification(%{data: params, type: period}) do
