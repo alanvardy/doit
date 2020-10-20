@@ -86,7 +86,12 @@ defmodule Doit.Todoist do
         "type" => "item_add",
         "temp_id" => item_id,
         "uuid" => new_uuid(),
-        "args" => %{"content" => task, "project_id" => project_id()}
+        "args" => %{
+          "content" => task <> " @5min @computer",
+          "project_id" => project_id(),
+          "priority" => 2,
+          "auto_parse_labels" => true
+        }
       }
       | for note <- notes do
           %{
