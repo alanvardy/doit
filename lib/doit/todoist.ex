@@ -17,14 +17,12 @@ defmodule Doit.Todoist do
   def create_task(params, opts \\ []) when is_map(params) do
     opts = Keyword.merge(@default_opts, opts)
 
-    params
-    |> task_to_command()
-    |> Client.create_task(opts)
+    Client.create_task(params, opts)
   end
 
-  @spec send_completed_tasks(period) :: :ok | {:error, String.t()}
-  @spec send_completed_tasks(period, keyword) :: :ok | {:error, String.t()}
-  def send_completed_tasks(period, opts \\ []) when period in @periods do
+  @spec get_completed_tasks(period) :: {:ok, [map]} | {:error, :bad_response}
+  @spec get_completed_tasks(period, keyword) :: :ok | {:ok, [map]} | {:error, :bad_response}
+  def get_completed_tasks(period, opts \\ []) when period in @periods do
     opts = Keyword.merge(@default_opts, opts)
 
     timestamp =
@@ -36,9 +34,8 @@ defmodule Doit.Todoist do
          {:ok, tasks} <- CompletedTasks.process(response),
          notes <- CompletedTasks.pretty_print(tasks),
          params <- %{task: get_text(period), notes: notes},
-         :ok <- create_task(params),
          {:ok, _notification} <- create_notification(%{data: params, type: period}) do
-      :ok
+      {:ok, task_to_command(params)}
     end
   end
 
@@ -80,7 +77,9 @@ defmodule Doit.Todoist do
     |> Repo.insert()
   end
 
-  defp task_to_command(%{task: task, notes: notes}) do
+  @spec task_to_command(%{task: String.t()}) :: [String.t()]
+  @spec task_to_command(%{task: String.t(), notes: [String.t()]}) :: [map]
+  def task_to_command(%{task: task, notes: notes}) do
     item_id = new_uuid()
 
     [
@@ -90,8 +89,8 @@ defmodule Doit.Todoist do
         "uuid" => new_uuid(),
         "args" => %{
           "content" => task <> " @5min @computer",
-          "project_id" => project_id(),
           "priority" => 2,
+          "project_id" => project_id(),
           "auto_parse_labels" => true
         }
       }
@@ -106,13 +105,17 @@ defmodule Doit.Todoist do
     ]
   end
 
-  defp task_to_command(%{task: task}) do
+  def task_to_command(%{task: task}) do
     [
       %{
         "type" => "item_add",
         "temp_id" => new_uuid(),
         "uuid" => new_uuid(),
-        "args" => %{"content" => task, "project_id" => project_id()}
+        "args" => %{
+          "content" => task <> " @5min @computer",
+          "priority" => 2,
+          "project_id" => project_id()
+        }
       }
     ]
   end

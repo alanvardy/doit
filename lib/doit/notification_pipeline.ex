@@ -69,7 +69,8 @@ defmodule Doit.NotificationPipeline do
   def handle_info(:fetch, state) do
     with {:ok, %Response{} = response} <- GitHub.get_notifications(),
          %Response{poll_interval: interval, timestamp: timestamp} <- response,
-         tasks <- GitHub.tasks_from_response(response) do
+         tasks <- GitHub.tasks_from_response(response),
+         tasks <- Enum.map(tasks, &Todoist.task_to_command(%{task: &1})) do
       Logger.info("Fetched #{Enum.count(tasks)} tasks from GitHub")
       Process.send_after(__MODULE__, :process, @short_delay, [])
 

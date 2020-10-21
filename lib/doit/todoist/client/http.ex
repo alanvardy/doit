@@ -23,7 +23,7 @@ defmodule Doit.Todoist.Client.HTTP do
     options = [
       ssl: [{:versions, [:"tlsv1.2"]}],
       recv_timeout: 5000,
-      params: [token: todoist_token(), commands: Jason.encode!(commands)]
+      params: [token: todoist_token(), commands: Jason.encode!([commands])]
     ]
 
     case HTTPoison.post(@create_task_url, "", headers, options) do
