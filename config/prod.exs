@@ -4,7 +4,8 @@ config :doit,
   env: :prod,
   github_token: System.fetch_env!("GITHUB_TOKEN"),
   todoist_token: System.fetch_env!("TODOIST_TOKEN"),
-  default_project: System.fetch_env!("DEFAULT_PROJECT")
+  default_project: System.fetch_env!("DEFAULT_PROJECT"),
+  default_tags: System.get_env("DEFAULT_TAGS")
 
 database_url =
   System.get_env("DATABASE_URL") ||

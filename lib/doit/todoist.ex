@@ -88,7 +88,7 @@ defmodule Doit.Todoist do
         "temp_id" => item_id,
         "uuid" => new_uuid(),
         "args" => %{
-          "content" => task <> " @computer",
+          "content" => "#{task} #{default_tags()}",
           "priority" => 2,
           "project_id" => project_id(),
           "auto_parse_labels" => true
@@ -112,7 +112,7 @@ defmodule Doit.Todoist do
         "temp_id" => new_uuid(),
         "uuid" => new_uuid(),
         "args" => %{
-          "content" => task <> " @computer",
+          "content" => "#{task} #{default_tags()}",
           "priority" => 2,
           "project_id" => project_id()
         }
@@ -126,6 +126,10 @@ defmodule Doit.Todoist do
 
   defp project_id do
     Application.fetch_env!(:doit, :default_project)
+  end
+
+  defp default_tags do
+    Application.get_env(:doit, :default_tags, "")
   end
 
   @spec get_text(period) :: String.t()

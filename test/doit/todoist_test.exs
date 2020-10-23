@@ -11,7 +11,7 @@ defmodule Doit.TodoistTest do
                 %{
                   "args" => %{
                     "auto_parse_labels" => true,
-                    "content" => "Last 24 Hours @5min @computer",
+                    "content" => "Last 24 Hours @computer",
                     "priority" => 2,
                     "project_id" => "123456789"
                   },
@@ -68,7 +68,7 @@ defmodule Doit.TodoistTest do
                 %{
                   "args" => %{
                     "auto_parse_labels" => true,
-                    "content" => "Last Week @5min @computer",
+                    "content" => "Last Week @computer",
                     "priority" => 2,
                     "project_id" => "123456789"
                   },
