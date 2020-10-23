@@ -4,8 +4,8 @@ defmodule Doit.PeriodicJobTest do
   alias Doit.Todoist.Client.BadResponse
   alias Doit.Todoist.Notification
 
-  @monday %DateTime{DateTime.utc_now() | year: 2020, month: 10, day: 12}
-  @tuesday %DateTime{@monday | day: 13}
+  @monday ~U[2020-10-12 12:00:00.178520Z]
+  @tuesday ~U[2020-10-13 12:00:00.178520Z]
 
   describe "Periodic job on a good Tuesday" do
     setup do

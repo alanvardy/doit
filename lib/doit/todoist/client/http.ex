@@ -16,8 +16,9 @@ defmodule Doit.Todoist.Client.HTTP do
   @timeout 62_000
 
   @impl true
-  @spec create_task([map]) :: :ok | {:error, :bad_response}
-  def create_task(commands) do
+  @spec create_task(map) :: :ok | {:error, :bad_response}
+  @spec create_task(map, non_neg_integer()) :: :ok | {:error, :bad_response}
+  def create_task(commands, retries \\ 0) do
     headers = [Accept: "Application/json; Charset=utf-8"]
 
     options = [
@@ -29,6 +30,16 @@ defmodule Doit.Todoist.Client.HTTP do
     case HTTPoison.post(@create_task_url, "", headers, options) do
       {:ok, %Response{status_code: 200}} ->
         :ok
+
+      {:ok, %Response{status_code: 400}} = error ->
+        if retries < 3 do
+          commands
+          |> refresh_uuid()
+          |> create_task(retries + 1)
+        else
+          log_error("create_task/1", [commands], error)
+          {:error, :bad_response}
+        end
 
       error ->
         log_error("create_task/1", [commands], error)
@@ -95,5 +106,10 @@ defmodule Doit.Todoist.Client.HTTP do
     Arguments: #{inspect(arguments)}
     Error: #{inspect(error)}
     """)
+  end
+
+  defp refresh_uuid(command) do
+    Process.sleep(5000)
+    Map.put(command, "uuid", Ecto.UUID.generate())
   end
 end
