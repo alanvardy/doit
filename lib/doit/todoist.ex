@@ -88,7 +88,7 @@ defmodule Doit.Todoist do
         "temp_id" => item_id,
         "uuid" => new_uuid(),
         "args" => %{
-          "content" => task <> " @5min @computer",
+          "content" => task <> " @computer",
           "priority" => 2,
           "project_id" => project_id(),
           "auto_parse_labels" => true
@@ -112,7 +112,7 @@ defmodule Doit.Todoist do
         "temp_id" => new_uuid(),
         "uuid" => new_uuid(),
         "args" => %{
-          "content" => task <> " @5min @computer",
+          "content" => task <> " @computer",
           "priority" => 2,
           "project_id" => project_id()
         }
