@@ -53,7 +53,7 @@ defmodule Doit.NotificationPipeline do
   def handle_info(:process, %{tasks: [head | tail]} = state) do
     case Todoist.create_task(%{task: head}) do
       :ok ->
-        Logger.info("Created Todoist task: #{head}")
+        Logger.info("Created Todoist task: #{inspect(head)}")
         Process.send_after(__MODULE__, :process, @todoist_delay_per_task, [])
         {:noreply, Map.put(state, :tasks, tail)}
 
