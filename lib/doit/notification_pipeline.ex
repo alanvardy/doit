@@ -75,7 +75,7 @@ defmodule Doit.NotificationPipeline do
       Process.send_after(__MODULE__, :process, @short_delay, [])
 
       timestamp = if Enum.empty?(tasks), do: nil, else: timestamp
-      {:noreply, %{interval: interval, tasks: tasks, timestamp: timestamp}}
+      {:noreply, %{interval: interval, tasks: List.flatten(tasks), timestamp: timestamp}}
     else
       response ->
         Logger.warn("Failed to fetch tasks from GitHub: #{inspect(response)}")
