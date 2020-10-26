@@ -77,7 +77,7 @@ defmodule Doit.Todoist do
     |> Repo.insert()
   end
 
-  @spec task_to_command(%{task: String.t()}) :: [String.t()]
+  @spec task_to_command(%{task: String.t()}) :: map
   @spec task_to_command(%{task: String.t(), notes: [String.t()]}) :: [map]
   def task_to_command(%{task: task, notes: notes}) do
     item_id = new_uuid()
@@ -106,18 +106,16 @@ defmodule Doit.Todoist do
   end
 
   def task_to_command(%{task: task}) do
-    [
-      %{
-        "type" => "item_add",
-        "temp_id" => new_uuid(),
-        "uuid" => new_uuid(),
-        "args" => %{
-          "content" => "#{task} #{default_tags()}",
-          "priority" => 2,
-          "project_id" => project_id()
-        }
+    %{
+      "type" => "item_add",
+      "temp_id" => new_uuid(),
+      "uuid" => new_uuid(),
+      "args" => %{
+        "content" => "#{task} #{default_tags()}",
+        "priority" => 2,
+        "project_id" => project_id()
       }
-    ]
+    }
   end
 
   defp new_uuid do

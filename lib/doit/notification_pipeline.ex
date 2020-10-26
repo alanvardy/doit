@@ -51,7 +51,7 @@ defmodule Doit.NotificationPipeline do
   @impl true
   # There are more tasks to process
   def handle_info(:process, %{tasks: [head | tail]} = state) do
-    case Todoist.create_task(%{task: head}) do
+    case Todoist.create_task(head) do
       :ok ->
         Logger.info("Created Todoist task: #{inspect(head)}")
         Process.send_after(__MODULE__, :process, @todoist_delay_per_task, [])
@@ -75,7 +75,7 @@ defmodule Doit.NotificationPipeline do
       Process.send_after(__MODULE__, :process, @short_delay, [])
 
       timestamp = if Enum.empty?(tasks), do: nil, else: timestamp
-      {:noreply, %{interval: interval, tasks: List.flatten(tasks), timestamp: timestamp}}
+      {:noreply, %{interval: interval, tasks: tasks, timestamp: timestamp}}
     else
       response ->
         Logger.warn("Failed to fetch tasks from GitHub: #{inspect(response)}")
