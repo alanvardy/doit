@@ -9,6 +9,7 @@ defmodule Doit.MixProject do
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
+      preferred_cli_env: [muzak: :test],
       dialyzer: [
         flags: [
           :no_behaviours,
@@ -69,7 +70,8 @@ defmodule Doit.MixProject do
       # Tooling
       {:ex_check, "~>0.12", only: :dev, runtime: false},
       {:credo, "~> 1.4.0", only: [:dev, :test], runtime: false},
-      {:dialyxir, "~> 1.0.0-rc.6", only: [:dev, :test], runtime: false}
+      {:dialyxir, "~> 1.0.0-rc.6", only: [:dev, :test], runtime: false},
+      {:muzak, "~> 1.0", only: :test}
     ]
   end
 

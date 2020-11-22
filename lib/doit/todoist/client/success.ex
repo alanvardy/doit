@@ -87,19 +87,6 @@ defmodule Doit.Todoist.Client.Success do
            "shared" => false,
            "sync_id" => nil
          },
-         "2242998350" => %{
-           "child_order" => 3,
-           "collapsed" => 0,
-           "color" => 30,
-           "id" => 2_242_998_350,
-           "is_archived" => 0,
-           "is_deleted" => 0,
-           "is_favorite" => 0,
-           "name" => "⚕️ Health",
-           "parent_id" => 2_242_997_804,
-           "shared" => false,
-           "sync_id" => nil
-         },
          "2242998504" => %{
            "child_order" => 4,
            "collapsed" => 0,

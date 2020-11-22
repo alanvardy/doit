@@ -1,7 +1,7 @@
 defmodule Doit.PeriodicJobTest do
   use Doit.DataCase
   alias Doit.{PeriodicJob, Repo}
-  alias Doit.Todoist.Client.BadResponse
+  alias Doit.Todoist.Client.{BadResponse, NoResponse}
   alias Doit.Todoist.Notification
 
   @monday ~U[2020-10-12 12:00:00.178520Z]

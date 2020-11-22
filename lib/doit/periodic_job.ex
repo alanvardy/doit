@@ -63,7 +63,7 @@ defmodule Doit.PeriodicJob do
     []
   end
 
-  defp get_completed_tasks(period, opts) do
+  defp get_completed_tasks(period, opts) when period in [:last_week, :last_24] do
     case Todoist.get_completed_tasks(period, opts) do
       {:ok, tasks} ->
         loop(@five_seconds)

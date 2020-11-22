@@ -62,7 +62,8 @@ defmodule Doit.Time do
     |> Kernel.==(1)
   end
 
-  defp day_of_week(%DateTime{} = datetime) do
+  @spec day_of_week(DateTime.t()) :: String.t()
+  def day_of_week(%DateTime{} = datetime) do
     datetime
     |> DateTime.to_date()
     |> Date.day_of_week()
