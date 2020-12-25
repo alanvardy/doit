@@ -52,14 +52,14 @@ defmodule Doit.Time do
     end
   end
 
-  @spec monday? :: boolean
-  @spec monday?(keyword) :: boolean
-  def monday?(opts \\ []) do
+  @spec saturday? :: boolean
+  @spec saturday?(keyword) :: boolean
+  def saturday?(opts \\ []) do
     opts
     |> Keyword.get(:current_datetime, DateTime.utc_now())
     |> to_local_date()
     |> Date.day_of_week()
-    |> Kernel.==(1)
+    |> Kernel.==(6)
   end
 
   @spec day_of_week(DateTime.t()) :: String.t()

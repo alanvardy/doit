@@ -55,7 +55,7 @@ defmodule Doit.Todoist do
 
   @spec time_to_send_weekly_summary?(keyword) :: boolean
   def time_to_send_weekly_summary?(opts \\ []) do
-    if Time.monday?(opts) do
+    if Time.saturday?(opts) do
       :last_week
       |> Notification.where_type()
       |> Notification.where_created_last_24_hours(opts)
