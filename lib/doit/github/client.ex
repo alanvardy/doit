@@ -4,7 +4,7 @@ defmodule Doit.GitHub.Client do
   """
   @callback notifications :: {:ok, map} | {:error, :bad_response}
   @callback clear_notifications(String.t()) :: :ok | {:error, :bad_response}
-  @default_opts [client: Application.fetch_env!(:doit, :github_client)]
+  @default_opts [client: Application.compile_env(:doit, :github_client)]
 
   @spec notifications :: {:ok, map} | {:error, :bad_response}
   @spec notifications(keyword) :: {:ok, map} | {:error, :bad_response}

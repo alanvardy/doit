@@ -3,7 +3,7 @@ defmodule Doit.GitHub do
   All things pertaining to calling the GitHub API and interpreting its output
   """
   alias Doit.GitHub.{Client, Notification, Response, Url}
-  @default_opts [client: Application.fetch_env!(:doit, :github_client)]
+  @default_opts [client: Application.compile_env(:doit, :github_client)]
 
   @spec get_notifications :: {:ok, Doit.GitHub.Response.t()} | {:error, :bad_response}
   @spec get_notifications(keyword) :: {:ok, Doit.GitHub.Response.t()} | {:error, :bad_response}

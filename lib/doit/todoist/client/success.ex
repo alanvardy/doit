@@ -3,10 +3,14 @@ defmodule Doit.Todoist.Client.Success do
   @moduledoc """
   Mock client for Todoist
   """
+  alias Doit.Todoist.MockServer
   @behaviour Doit.Todoist.Client
 
   @impl true
-  def create_task(_task), do: :ok
+  def create_task(task) do
+    MockServer.put(task)
+    :ok
+  end
 
   @impl true
   def completed_items(arg, _), do: completed_items(arg)
@@ -141,5 +145,106 @@ defmodule Doit.Todoist.Client.Success do
          }
        }
      }}
+  end
+
+  @impl true
+  def current_tasks do
+    {:ok,
+     [
+       %{
+         "added_by_uid" => 635_166,
+         "assigned_by_uid" => nil,
+         "checked" => 0,
+         "child_order" => 266,
+         "collapsed" => 0,
+         "content" =>
+           "[some-repo](https://github.com/alanvardy/some-repo) -- Pull Request -- [Extend League Stats controller test. Adding get cached_playstyle_path…](https://github.com/alanvardy/some-repo/pull/2137)",
+         "date_added" => "2021-01-29T23:05:20Z",
+         "date_completed" => nil,
+         "due" => nil,
+         "id" => 4_535_839_657,
+         "in_history" => 0,
+         "is_deleted" => 0,
+         "labels" => [],
+         "note_count" => 0,
+         "parent_id" => nil,
+         "priority" => 2,
+         "project_id" => 2_243_747_250,
+         "responsible_uid" => nil,
+         "section_id" => nil,
+         "sync_id" => nil,
+         "user_id" => 635_166
+       },
+       %{
+         "added_by_uid" => 635_166,
+         "assigned_by_uid" => nil,
+         "checked" => 0,
+         "child_order" => 267,
+         "collapsed" => 0,
+         "content" =>
+           "[some-repo](https://github.com/alanvardy/some-repo) -- Pull Request -- [fix: move stricter credo back to shared_utils before anyone notices](https://github.com/alanvardy/some-repo/issues/2146#issuecomment-770097030)",
+         "date_added" => "2021-01-29T23:08:28Z",
+         "date_completed" => nil,
+         "due" => nil,
+         "id" => 4_535_844_967,
+         "in_history" => 0,
+         "is_deleted" => 0,
+         "labels" => [],
+         "note_count" => 0,
+         "parent_id" => nil,
+         "priority" => 2,
+         "project_id" => 2_243_747_250,
+         "responsible_uid" => nil,
+         "section_id" => nil,
+         "sync_id" => nil,
+         "user_id" => 635_166
+       },
+       %{
+         "added_by_uid" => 635_166,
+         "assigned_by_uid" => nil,
+         "checked" => 0,
+         "child_order" => 270,
+         "collapsed" => 0,
+         "content" => "Last Week",
+         "date_added" => "2021-01-30T08:10:54Z",
+         "date_completed" => nil,
+         "due" => nil,
+         "id" => 4_536_411_772,
+         "in_history" => 0,
+         "is_deleted" => 0,
+         "labels" => [],
+         "note_count" => 2,
+         "parent_id" => nil,
+         "priority" => 2,
+         "project_id" => 2_243_747_250,
+         "responsible_uid" => nil,
+         "section_id" => nil,
+         "sync_id" => nil,
+         "user_id" => 635_166
+       },
+       %{
+         "added_by_uid" => 635_166,
+         "assigned_by_uid" => nil,
+         "checked" => 0,
+         "child_order" => 273,
+         "collapsed" => 0,
+         "content" => "Last 24 Hours",
+         "date_added" => "2021-01-31T14:40:25Z",
+         "date_completed" => nil,
+         "due" => nil,
+         "id" => 4_539_174_784,
+         "in_history" => 0,
+         "is_deleted" => 0,
+         "labels" => [],
+         "note_count" => 5,
+         "parent_id" => nil,
+         "priority" => 2,
+         "project_id" => 2_243_747_250,
+         "responsible_uid" => nil,
+         "section_id" => nil,
+         "sync_id" => nil,
+         "user_id" => 635_166
+       }
+     ]}
   end
 end

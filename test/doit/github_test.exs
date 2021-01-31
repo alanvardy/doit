@@ -43,12 +43,12 @@ defmodule Doit.GitHubTest do
                   %{
                     title: "move match in pro build controller to its own controller",
                     type: "Pull Request",
-                    url: "https://github.com/theblitzapp/blitz-backend/pull/1773"
+                    url: "https://github.com/alanvardy/some-repo/pull/1773"
                   },
                   %{
                     title: "rename scraper and aggregator in cluster defs",
                     type: "Pull Request",
-                    url: "https://github.com/theblitzapp/blitz-backend/pull/1775"
+                    url: "https://github.com/alanvardy/some-repo/pull/1775"
                   }
                 ],
                 poll_interval: 60_000,

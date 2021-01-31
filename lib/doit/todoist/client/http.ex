@@ -11,9 +11,12 @@ defmodule Doit.Todoist.Client.HTTP do
 
   @create_task_url "https://api.todoist.com/sync/v8/sync"
   @completed_item_url "https://api.todoist.com/sync/v8/completed/get_all"
+  @project_data_url "https://api.todoist.com/sync/v8/projects/get_data"
   @default_opts [sleep: 0, offset: 0]
   @limit 200
   @timeout 62_000
+  @todoist_token Application.compile_env(:doit, :todoist_token)
+  @project_id Application.compile_env(:doit, :default_project)
 
   @impl true
   @spec create_task(map) :: :ok | {:error, :bad_response}
@@ -24,7 +27,7 @@ defmodule Doit.Todoist.Client.HTTP do
     options = [
       ssl: [{:versions, [:"tlsv1.2"]}],
       recv_timeout: 5000,
-      params: [token: todoist_token(), commands: Jason.encode!([commands])]
+      params: [token: @todoist_token, commands: Jason.encode!([commands])]
     ]
 
     case HTTPoison.post(@create_task_url, "", headers, options) do
@@ -61,7 +64,7 @@ defmodule Doit.Todoist.Client.HTTP do
     options = [
       ssl: [{:versions, [:"tlsv1.2"]}],
       recv_timeout: 5000,
-      params: [token: todoist_token(), since: timestamp, limit: @limit, offset: offset]
+      params: [token: @todoist_token, since: timestamp, limit: @limit, offset: offset]
     ]
 
     with sleep when sleep < @timeout and is_integer(sleep) <- opts[:sleep],
@@ -88,15 +91,30 @@ defmodule Doit.Todoist.Client.HTTP do
     end
   end
 
+  @impl true
+  def current_tasks do
+    headers = [Accept: "Application/json; Charset=utf-8"]
+
+    options = [
+      ssl: [{:versions, [:"tlsv1.2"]}],
+      recv_timeout: 5000,
+      params: [token: @todoist_token, project_id: @project_id]
+    ]
+
+    with response_tuple <- HTTPoison.post(@project_data_url, "", headers, options),
+         {:ok, %Response{status_code: 200, body: body}} <- response_tuple,
+         {:ok, %{"items" => items}} <- Jason.decode(body) do
+      {:ok, items}
+    else
+      error -> log_error("current_tasks/0", [], error)
+    end
+  end
+
   defp append(%{"items" => items, "projects" => projects}, timestamp, opts) do
     with {:ok, %{items: new_items}} <-
            completed_items(timestamp, Keyword.merge(opts, offset: opts[:offset] + @limit)) do
       {:ok, %{items: items ++ new_items, projects: projects}}
     end
-  end
-
-  defp todoist_token do
-    Application.fetch_env!(:doit, :todoist_token)
   end
 
   defp log_error(function, arguments, error) do

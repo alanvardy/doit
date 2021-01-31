@@ -2,7 +2,7 @@ defmodule Doit.Time do
   @moduledoc """
   Handles time conversion and pretty printing
   """
-  @time_zone Application.get_env(:doit, :time_zone)
+  @time_zone Application.compile_env(:doit, :time_zone)
   @twenty_four_hours_ago -60 * 60 * 24
   @one_week_ago @twenty_four_hours_ago * 7
 

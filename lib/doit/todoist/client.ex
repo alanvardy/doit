@@ -8,7 +8,9 @@ defmodule Doit.Todoist.Client do
   @callback create_task(map) :: :ok | {:error, :bad_response}
   @callback completed_items(String.t()) :: resp
   @callback completed_items(String.t(), keyword) :: resp
-  @default_opts [client: Application.fetch_env!(:doit, :github_client)]
+  @callback current_tasks() :: resp
+
+  @default_opts [client: Application.compile_env(:doit, :github_client)]
 
   @spec create_task(map, keyword) :: :ok | {:error, :bad_response}
   def create_task(commands, opts \\ []) do
@@ -20,5 +22,11 @@ defmodule Doit.Todoist.Client do
   def completed_items(timestamp, opts \\ []) do
     opts = Keyword.merge(@default_opts, opts)
     opts[:client].completed_items(timestamp)
+  end
+
+  @spec current_tasks(keyword) :: {:ok, [String.t()]} | {:error, :bad_response}
+  def current_tasks(opts \\ []) do
+    opts = Keyword.merge(@default_opts, opts)
+    opts[:client].current_tasks
   end
 end
