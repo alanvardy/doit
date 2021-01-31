@@ -13,4 +13,7 @@ defmodule Doit.Todoist.Client.BadResponse do
 
   @impl true
   def completed_items(_), do: {:error, :bad_response}
+
+  @impl true
+  def current_tasks(), do: {:error, :bad_response}
 end

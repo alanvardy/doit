@@ -6,9 +6,17 @@ defmodule Doit.NotificationPipeline do
   alias Doit.{GitHub, Todoist}
   alias Doit.GitHub.Response
 
-  @short_delay 500
-  @todoist_delay_per_task 5000
-  @delay_on_failure 120_000
+  if Mix.env() === :test do
+    @short_delay 1
+    @todoist_delay_per_task 1
+    @delay_on_failure 1
+    defp set_interval(_interval), do: 100
+  else
+    @short_delay 500
+    @todoist_delay_per_task 5000
+    @delay_on_failure 120_000
+    defp set_interval(interval), do: interval
+  end
 
   # Client
 
@@ -22,7 +30,7 @@ defmodule Doit.NotificationPipeline do
   @impl true
   def init(_state) do
     Process.send_after(__MODULE__, :process, @short_delay, [])
-    {:ok, %{interval: 1000, tasks: [], timestamp: nil}}
+    {:ok, %{interval: @short_delay * 2, tasks: [], timestamp: nil}}
   end
 
   @impl true
@@ -70,15 +78,22 @@ defmodule Doit.NotificationPipeline do
     with {:ok, %Response{} = response} <- GitHub.get_notifications(),
          %Response{poll_interval: interval, timestamp: timestamp} <- response,
          tasks <- GitHub.tasks_from_response(response),
-         tasks <- Enum.map(tasks, &Todoist.task_to_command(%{task: &1})) do
-      Logger.info("Fetched #{Enum.count(tasks)} tasks from GitHub")
+         tasks <- Enum.map(tasks, &Todoist.task_to_command(%{task: &1})),
+         {:ok, current_task_content} <- Todoist.current_task_content(),
+         filtered_tasks <- Todoist.filter_existing_tasks(tasks, current_task_content) do
+      Logger.info(
+        "Fetched #{Enum.count(tasks)}, removed #{Enum.count(tasks - filtered_tasks)}, #{
+          Enum.count(filtered_tasks)
+        } remaining"
+      )
+
       Process.send_after(__MODULE__, :process, @short_delay, [])
 
-      timestamp = if Enum.empty?(tasks), do: nil, else: timestamp
-      {:noreply, %{interval: interval, tasks: tasks, timestamp: timestamp}}
+      timestamp = if Enum.empty?(filtered_tasks), do: nil, else: timestamp
+      {:noreply, %{interval: set_interval(interval), tasks: filtered_tasks, timestamp: timestamp}}
     else
       response ->
-        Logger.warn("Failed to fetch tasks from GitHub: #{inspect(response)}")
+        Logger.warn("Failed to generate new tasks: #{inspect(response)}")
         Process.send_after(__MODULE__, :fetch, @delay_on_failure, [])
         {:noreply, state}
     end

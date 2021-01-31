@@ -11,10 +11,12 @@ defmodule Doit.Todoist.Client.HTTP do
 
   @create_task_url "https://api.todoist.com/sync/v8/sync"
   @completed_item_url "https://api.todoist.com/sync/v8/completed/get_all"
+  @project_data_url "https://api.todoist.com/sync/v8/projects/get_data"
   @default_opts [sleep: 0, offset: 0]
   @limit 200
   @timeout 62_000
   @todoist_token Application.compile_env(:doit, :todoist_token)
+  @project_id Application.compile_env(:doit, :default_project)
 
   @impl true
   @spec create_task(map) :: :ok | {:error, :bad_response}
@@ -86,6 +88,25 @@ defmodule Doit.Todoist.Client.HTTP do
       num when is_integer(num) ->
         Logger.error("completed_items/2 exceeded retry limit")
         {:error, :bad_response}
+    end
+  end
+
+  @impl true
+  def current_tasks do
+    headers = [Accept: "Application/json; Charset=utf-8"]
+
+    options = [
+      ssl: [{:versions, [:"tlsv1.2"]}],
+      recv_timeout: 5000,
+      params: [token: @todoist_token, project_id: @project_id]
+    ]
+
+    with response_tuple <- HTTPoison.post(@project_data_url, "", headers, options),
+         {:ok, %Response{status_code: 200, body: body}} <- response_tuple,
+         {:ok, %{"items" => items}} <- Jason.decode(body) do
+      {:ok, items}
+    else
+      error -> log_error("current_tasks/0", [], error)
     end
   end
 

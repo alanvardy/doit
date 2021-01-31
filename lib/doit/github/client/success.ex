@@ -14,107 +14,90 @@ defmodule Doit.GitHub.Client.Success do
            "last_read_at" => nil,
            "reason" => "comment",
            "repository" => %{
-             "statuses_url" =>
-               "https://api.github.com/repos/theblitzapp/blitz-backend/statuses/{sha}",
-             "git_refs_url" =>
-               "https://api.github.com/repos/theblitzapp/blitz-backend/git/refs{/sha}",
+             "statuses_url" => "https://api.github.com/repos/alanvardy/some-repo/statuses/{sha}",
+             "git_refs_url" => "https://api.github.com/repos/alanvardy/some-repo/git/refs{/sha}",
              "issue_comment_url" =>
-               "https://api.github.com/repos/theblitzapp/blitz-backend/issues/comments{/number}",
-             "languages_url" =>
-               "https://api.github.com/repos/theblitzapp/blitz-backend/languages",
+               "https://api.github.com/repos/alanvardy/some-repo/issues/comments{/number}",
+             "languages_url" => "https://api.github.com/repos/alanvardy/some-repo/languages",
              "comments_url" =>
-               "https://api.github.com/repos/theblitzapp/blitz-backend/comments{/number}",
-             "commits_url" =>
-               "https://api.github.com/repos/theblitzapp/blitz-backend/commits{/sha}",
+               "https://api.github.com/repos/alanvardy/some-repo/comments{/number}",
+             "commits_url" => "https://api.github.com/repos/alanvardy/some-repo/commits{/sha}",
              "id" => 74_417_982,
-             "stargazers_url" =>
-               "https://api.github.com/repos/theblitzapp/blitz-backend/stargazers",
-             "events_url" => "https://api.github.com/repos/theblitzapp/blitz-backend/events",
-             "blobs_url" =>
-               "https://api.github.com/repos/theblitzapp/blitz-backend/git/blobs{/sha}",
-             "hooks_url" => "https://api.github.com/repos/theblitzapp/blitz-backend/hooks",
+             "stargazers_url" => "https://api.github.com/repos/alanvardy/some-repo/stargazers",
+             "events_url" => "https://api.github.com/repos/alanvardy/some-repo/events",
+             "blobs_url" => "https://api.github.com/repos/alanvardy/some-repo/git/blobs{/sha}",
+             "hooks_url" => "https://api.github.com/repos/alanvardy/some-repo/hooks",
              "owner" => %{
                "avatar_url" => "https://avatars3.githubusercontent.com/u/4267635?v=4",
-               "events_url" => "https://api.github.com/users/theblitzapp/events{/privacy}",
-               "followers_url" => "https://api.github.com/users/theblitzapp/followers",
-               "following_url" =>
-                 "https://api.github.com/users/theblitzapp/following{/other_user}",
-               "gists_url" => "https://api.github.com/users/theblitzapp/gists{/gist_id}",
+               "events_url" => "https://api.github.com/users/alanvardy/events{/privacy}",
+               "followers_url" => "https://api.github.com/users/alanvardy/followers",
+               "following_url" => "https://api.github.com/users/alanvardy/following{/other_user}",
+               "gists_url" => "https://api.github.com/users/alanvardy/gists{/gist_id}",
                "gravatar_id" => "",
-               "html_url" => "https://github.com/theblitzapp",
+               "html_url" => "https://github.com/alanvardy",
                "id" => 4_267_635,
-               "login" => "theblitzapp",
+               "login" => "alanvardy",
                "node_id" => "MDEyOk9yZ2FuaXphdGlvbjQyNjc2MzU=",
-               "organizations_url" => "https://api.github.com/users/theblitzapp/orgs",
-               "received_events_url" =>
-                 "https://api.github.com/users/theblitzapp/received_events",
-               "repos_url" => "https://api.github.com/users/theblitzapp/repos",
+               "organizations_url" => "https://api.github.com/users/alanvardy/orgs",
+               "received_events_url" => "https://api.github.com/users/alanvardy/received_events",
+               "repos_url" => "https://api.github.com/users/alanvardy/repos",
                "site_admin" => false,
-               "starred_url" => "https://api.github.com/users/theblitzapp/starred{/owner}{/repo}",
-               "subscriptions_url" => "https://api.github.com/users/theblitzapp/subscriptions",
+               "starred_url" => "https://api.github.com/users/alanvardy/starred{/owner}{/repo}",
+               "subscriptions_url" => "https://api.github.com/users/alanvardy/subscriptions",
                "type" => "Organization",
-               "url" => "https://api.github.com/users/theblitzapp"
+               "url" => "https://api.github.com/users/alanvardy"
              },
-             "trees_url" =>
-               "https://api.github.com/repos/theblitzapp/blitz-backend/git/trees{/sha}",
+             "trees_url" => "https://api.github.com/repos/alanvardy/some-repo/git/trees{/sha}",
              "git_commits_url" =>
-               "https://api.github.com/repos/theblitzapp/blitz-backend/git/commits{/sha}",
+               "https://api.github.com/repos/alanvardy/some-repo/git/commits{/sha}",
              "collaborators_url" =>
-               "https://api.github.com/repos/theblitzapp/blitz-backend/collaborators{/collaborator}",
-             "tags_url" => "https://api.github.com/repos/theblitzapp/blitz-backend/tags",
-             "merges_url" => "https://api.github.com/repos/theblitzapp/blitz-backend/merges",
-             "releases_url" =>
-               "https://api.github.com/repos/theblitzapp/blitz-backend/releases{/id}",
-             "subscribers_url" =>
-               "https://api.github.com/repos/theblitzapp/blitz-backend/subscribers",
-             "name" => "blitz-backend",
+               "https://api.github.com/repos/alanvardy/some-repo/collaborators{/collaborator}",
+             "tags_url" => "https://api.github.com/repos/alanvardy/some-repo/tags",
+             "merges_url" => "https://api.github.com/repos/alanvardy/some-repo/merges",
+             "releases_url" => "https://api.github.com/repos/alanvardy/some-repo/releases{/id}",
+             "subscribers_url" => "https://api.github.com/repos/alanvardy/some-repo/subscribers",
+             "name" => "some-repo",
              "private" => true,
-             "git_tags_url" =>
-               "https://api.github.com/repos/theblitzapp/blitz-backend/git/tags{/sha}",
+             "git_tags_url" => "https://api.github.com/repos/alanvardy/some-repo/git/tags{/sha}",
              "archive_url" =>
-               "https://api.github.com/repos/theblitzapp/blitz-backend/{archive_format}{/ref}",
+               "https://api.github.com/repos/alanvardy/some-repo/{archive_format}{/ref}",
              "milestones_url" =>
-               "https://api.github.com/repos/theblitzapp/blitz-backend/milestones{/number}",
-             "forks_url" => "https://api.github.com/repos/theblitzapp/blitz-backend/forks",
-             "url" => "https://api.github.com/repos/theblitzapp/blitz-backend",
-             "downloads_url" =>
-               "https://api.github.com/repos/theblitzapp/blitz-backend/downloads",
-             "keys_url" => "https://api.github.com/repos/theblitzapp/blitz-backend/keys{/key_id}",
+               "https://api.github.com/repos/alanvardy/some-repo/milestones{/number}",
+             "forks_url" => "https://api.github.com/repos/alanvardy/some-repo/forks",
+             "url" => "https://api.github.com/repos/alanvardy/some-repo",
+             "downloads_url" => "https://api.github.com/repos/alanvardy/some-repo/downloads",
+             "keys_url" => "https://api.github.com/repos/alanvardy/some-repo/keys{/key_id}",
              "description" => "Blitz Backend",
              "contents_url" =>
-               "https://api.github.com/repos/theblitzapp/blitz-backend/contents/{+path}",
+               "https://api.github.com/repos/alanvardy/some-repo/contents/{+path}",
              "contributors_url" =>
-               "https://api.github.com/repos/theblitzapp/blitz-backend/contributors",
-             "deployments_url" =>
-               "https://api.github.com/repos/theblitzapp/blitz-backend/deployments",
-             "pulls_url" =>
-               "https://api.github.com/repos/theblitzapp/blitz-backend/pulls{/number}",
-             "labels_url" =>
-               "https://api.github.com/repos/theblitzapp/blitz-backend/labels{/name}",
-             "html_url" => "https://github.com/theblitzapp/blitz-backend",
+               "https://api.github.com/repos/alanvardy/some-repo/contributors",
+             "deployments_url" => "https://api.github.com/repos/alanvardy/some-repo/deployments",
+             "pulls_url" => "https://api.github.com/repos/alanvardy/some-repo/pulls{/number}",
+             "labels_url" => "https://api.github.com/repos/alanvardy/some-repo/labels{/name}",
+             "html_url" => "https://github.com/alanvardy/some-repo",
              "issue_events_url" =>
-               "https://api.github.com/repos/theblitzapp/blitz-backend/issues/events{/number}",
+               "https://api.github.com/repos/alanvardy/some-repo/issues/events{/number}",
              "notifications_url" =>
-               "https://api.github.com/repos/theblitzapp/blitz-backend/notifications{?since,all,participating}",
+               "https://api.github.com/repos/alanvardy/some-repo/notifications{?since,all,participating}",
              "node_id" => "MDEwOlJlcG9zaXRvcnk3NDQxNzk4Mg==",
              "compare_url" =>
-               "https://api.github.com/repos/theblitzapp/blitz-backend/compare/{base}...{head}",
-             "full_name" => "theblitzapp/blitz-backend",
+               "https://api.github.com/repos/alanvardy/some-repo/compare/{base}...{head}",
+             "full_name" => "alanvardy/some-repo",
              "subscription_url" =>
-               "https://api.github.com/repos/theblitzapp/blitz-backend/subscription",
+               "https://api.github.com/repos/alanvardy/some-repo/subscription",
              "assignees_url" =>
-               "https://api.github.com/repos/theblitzapp/blitz-backend/assignees{/user}",
-             "issues_url" =>
-               "https://api.github.com/repos/theblitzapp/blitz-backend/issues{/number}",
+               "https://api.github.com/repos/alanvardy/some-repo/assignees{/user}",
+             "issues_url" => "https://api.github.com/repos/alanvardy/some-repo/issues{/number}",
              "fork" => false,
              "branches_url" =>
-               "https://api.github.com/repos/theblitzapp/blitz-backend/branches{/branch}"
+               "https://api.github.com/repos/alanvardy/some-repo/branches{/branch}"
            },
            "subject" => %{
              "latest_comment_url" => nil,
              "title" => "move match in pro build controller to its own controller",
              "type" => "PullRequest",
-             "url" => "https://api.github.com/repos/theblitzapp/blitz-backend/pulls/1773"
+             "url" => "https://api.github.com/repos/alanvardy/some-repo/pulls/1773"
            },
            "subscription_url" =>
              "https://api.github.com/notifications/threads/1192830250/subscription",
@@ -127,106 +110,89 @@ defmodule Doit.GitHub.Client.Success do
            "last_read_at" => "2020-09-25T16:59:52Z",
            "reason" => "comment",
            "repository" => %{
-             "statuses_url" =>
-               "https://api.github.com/repos/theblitzapp/blitz-backend/statuses/{sha}",
-             "git_refs_url" =>
-               "https://api.github.com/repos/theblitzapp/blitz-backend/git/refs{/sha}",
+             "statuses_url" => "https://api.github.com/repos/alanvardy/some-repo/statuses/{sha}",
+             "git_refs_url" => "https://api.github.com/repos/alanvardy/some-repo/git/refs{/sha}",
              "issue_comment_url" =>
-               "https://api.github.com/repos/theblitzapp/blitz-backend/issues/comments{/number}",
-             "languages_url" =>
-               "https://api.github.com/repos/theblitzapp/blitz-backend/languages",
+               "https://api.github.com/repos/alanvardy/some-repo/issues/comments{/number}",
+             "languages_url" => "https://api.github.com/repos/alanvardy/some-repo/languages",
              "comments_url" =>
-               "https://api.github.com/repos/theblitzapp/blitz-backend/comments{/number}",
-             "commits_url" =>
-               "https://api.github.com/repos/theblitzapp/blitz-backend/commits{/sha}",
+               "https://api.github.com/repos/alanvardy/some-repo/comments{/number}",
+             "commits_url" => "https://api.github.com/repos/alanvardy/some-repo/commits{/sha}",
              "id" => 74_417_982,
-             "stargazers_url" =>
-               "https://api.github.com/repos/theblitzapp/blitz-backend/stargazers",
-             "events_url" => "https://api.github.com/repos/theblitzapp/blitz-backend/events",
-             "blobs_url" =>
-               "https://api.github.com/repos/theblitzapp/blitz-backend/git/blobs{/sha}",
-             "hooks_url" => "https://api.github.com/repos/theblitzapp/blitz-backend/hooks",
+             "stargazers_url" => "https://api.github.com/repos/alanvardy/some-repo/stargazers",
+             "events_url" => "https://api.github.com/repos/alanvardy/some-repo/events",
+             "blobs_url" => "https://api.github.com/repos/alanvardy/some-repo/git/blobs{/sha}",
+             "hooks_url" => "https://api.github.com/repos/alanvardy/some-repo/hooks",
              "owner" => %{
                "avatar_url" => "https://avatars3.githubusercontent.com/u/4267635?v=4",
-               "events_url" => "https://api.github.com/users/theblitzapp/events{/privacy}",
-               "followers_url" => "https://api.github.com/users/theblitzapp/followers",
-               "following_url" =>
-                 "https://api.github.com/users/theblitzapp/following{/other_user}",
-               "gists_url" => "https://api.github.com/users/theblitzapp/gists{/gist_id}",
+               "events_url" => "https://api.github.com/users/alanvardy/events{/privacy}",
+               "followers_url" => "https://api.github.com/users/alanvardy/followers",
+               "following_url" => "https://api.github.com/users/alanvardy/following{/other_user}",
+               "gists_url" => "https://api.github.com/users/alanvardy/gists{/gist_id}",
                "gravatar_id" => "",
-               "html_url" => "https://github.com/theblitzapp",
+               "html_url" => "https://github.com/alanvardy",
                "id" => 4_267_635,
-               "login" => "theblitzapp",
+               "login" => "alanvardy",
                "node_id" => "MDEyOk9yZ2FuaXphdGlvbjQyNjc2MzU=",
-               "organizations_url" => "https://api.github.com/users/theblitzapp/orgs",
-               "received_events_url" =>
-                 "https://api.github.com/users/theblitzapp/received_events",
-               "repos_url" => "https://api.github.com/users/theblitzapp/repos",
+               "organizations_url" => "https://api.github.com/users/alanvardy/orgs",
+               "received_events_url" => "https://api.github.com/users/alanvardy/received_events",
+               "repos_url" => "https://api.github.com/users/alanvardy/repos",
                "site_admin" => false,
-               "starred_url" => "https://api.github.com/users/theblitzapp/starred{/owner}{/repo}",
-               "subscriptions_url" => "https://api.github.com/users/theblitzapp/subscriptions",
+               "starred_url" => "https://api.github.com/users/alanvardy/starred{/owner}{/repo}",
+               "subscriptions_url" => "https://api.github.com/users/alanvardy/subscriptions",
                "type" => "Organization",
-               "url" => "https://api.github.com/users/theblitzapp"
+               "url" => "https://api.github.com/users/alanvardy"
              },
-             "trees_url" =>
-               "https://api.github.com/repos/theblitzapp/blitz-backend/git/trees{/sha}",
+             "trees_url" => "https://api.github.com/repos/alanvardy/some-repo/git/trees{/sha}",
              "git_commits_url" =>
-               "https://api.github.com/repos/theblitzapp/blitz-backend/git/commits{/sha}",
+               "https://api.github.com/repos/alanvardy/some-repo/git/commits{/sha}",
              "collaborators_url" =>
-               "https://api.github.com/repos/theblitzapp/blitz-backend/collaborators{/collaborator}",
-             "tags_url" => "https://api.github.com/repos/theblitzapp/blitz-backend/tags",
-             "merges_url" => "https://api.github.com/repos/theblitzapp/blitz-backend/merges",
-             "releases_url" =>
-               "https://api.github.com/repos/theblitzapp/blitz-backend/releases{/id}",
-             "subscribers_url" =>
-               "https://api.github.com/repos/theblitzapp/blitz-backend/subscribers",
-             "name" => "blitz-backend",
+               "https://api.github.com/repos/alanvardy/some-repo/collaborators{/collaborator}",
+             "tags_url" => "https://api.github.com/repos/alanvardy/some-repo/tags",
+             "merges_url" => "https://api.github.com/repos/alanvardy/some-repo/merges",
+             "releases_url" => "https://api.github.com/repos/alanvardy/some-repo/releases{/id}",
+             "subscribers_url" => "https://api.github.com/repos/alanvardy/some-repo/subscribers",
+             "name" => "some-repo",
              "private" => true,
-             "git_tags_url" =>
-               "https://api.github.com/repos/theblitzapp/blitz-backend/git/tags{/sha}",
+             "git_tags_url" => "https://api.github.com/repos/alanvardy/some-repo/git/tags{/sha}",
              "archive_url" =>
-               "https://api.github.com/repos/theblitzapp/blitz-backend/{archive_format}{/ref}",
+               "https://api.github.com/repos/alanvardy/some-repo/{archive_format}{/ref}",
              "milestones_url" =>
-               "https://api.github.com/repos/theblitzapp/blitz-backend/milestones{/number}",
-             "forks_url" => "https://api.github.com/repos/theblitzapp/blitz-backend/forks",
-             "url" => "https://api.github.com/repos/theblitzapp/blitz-backend",
-             "downloads_url" =>
-               "https://api.github.com/repos/theblitzapp/blitz-backend/downloads",
-             "keys_url" => "https://api.github.com/repos/theblitzapp/blitz-backend/keys{/key_id}",
+               "https://api.github.com/repos/alanvardy/some-repo/milestones{/number}",
+             "forks_url" => "https://api.github.com/repos/alanvardy/some-repo/forks",
+             "url" => "https://api.github.com/repos/alanvardy/some-repo",
+             "downloads_url" => "https://api.github.com/repos/alanvardy/some-repo/downloads",
+             "keys_url" => "https://api.github.com/repos/alanvardy/some-repo/keys{/key_id}",
              "description" => "Blitz Backend",
              "contents_url" =>
-               "https://api.github.com/repos/theblitzapp/blitz-backend/contents/{+path}",
+               "https://api.github.com/repos/alanvardy/some-repo/contents/{+path}",
              "contributors_url" =>
-               "https://api.github.com/repos/theblitzapp/blitz-backend/contributors",
-             "deployments_url" =>
-               "https://api.github.com/repos/theblitzapp/blitz-backend/deployments",
-             "pulls_url" =>
-               "https://api.github.com/repos/theblitzapp/blitz-backend/pulls{/number}",
-             "labels_url" =>
-               "https://api.github.com/repos/theblitzapp/blitz-backend/labels{/name}",
-             "html_url" => "https://github.com/theblitzapp/blitz-backend",
+               "https://api.github.com/repos/alanvardy/some-repo/contributors",
+             "deployments_url" => "https://api.github.com/repos/alanvardy/some-repo/deployments",
+             "pulls_url" => "https://api.github.com/repos/alanvardy/some-repo/pulls{/number}",
+             "labels_url" => "https://api.github.com/repos/alanvardy/some-repo/labels{/name}",
+             "html_url" => "https://github.com/alanvardy/some-repo",
              "issue_events_url" =>
-               "https://api.github.com/repos/theblitzapp/blitz-backend/issues/events{/number}",
+               "https://api.github.com/repos/alanvardy/some-repo/issues/events{/number}",
              "notifications_url" =>
-               "https://api.github.com/repos/theblitzapp/blitz-backend/notifications{?since,all,participating}",
+               "https://api.github.com/repos/alanvardy/some-repo/notifications{?since,all,participating}",
              "node_id" => "MDEwOlJlcG9zaXRvcnk3NDQxNzk4Mg==",
              "compare_url" =>
-               "https://api.github.com/repos/theblitzapp/blitz-backend/compare/{base}...{head}",
-             "full_name" => "theblitzapp/blitz-backend",
+               "https://api.github.com/repos/alanvardy/some-repo/compare/{base}...{head}",
+             "full_name" => "alanvardy/some-repo",
              "subscription_url" =>
-               "https://api.github.com/repos/theblitzapp/blitz-backend/subscription",
+               "https://api.github.com/repos/alanvardy/some-repo/subscription",
              "assignees_url" =>
-               "https://api.github.com/repos/theblitzapp/blitz-backend/assignees{/user}",
-             "issues_url" =>
-               "https://api.github.com/repos/theblitzapp/blitz-backend/issues{/number}",
+               "https://api.github.com/repos/alanvardy/some-repo/assignees{/user}",
+             "issues_url" => "https://api.github.com/repos/alanvardy/some-repo/issues{/number}",
              "fork" => false
            },
            "subject" => %{
              "latest_comment_url" =>
-               "https://api.github.com/repos/theblitzapp/blitz-backend/pulls/1775",
+               "https://api.github.com/repos/alanvardy/some-repo/pulls/1775",
              "title" => "rename scraper and aggregator in cluster defs",
              "type" => "PullRequest",
-             "url" => "https://api.github.com/repos/theblitzapp/blitz-backend/pulls/1775"
+             "url" => "https://api.github.com/repos/alanvardy/some-repo/pulls/1775"
            },
            "subscription_url" =>
              "https://api.github.com/notifications/threads/1194780028/subscription",

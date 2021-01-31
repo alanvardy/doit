@@ -2,6 +2,7 @@ defmodule Doit.Todoist do
   @moduledoc """
   All things pertaining to calling the Todoist API and interpreting its output
   """
+  require Logger
   alias Doit.{Repo, Time}
   alias Doit.Todoist.{Client, CompletedTasks, Notification}
 
@@ -38,6 +39,15 @@ defmodule Doit.Todoist do
          params <- %{task: get_text(period), notes: notes},
          {:ok, _notification} <- create_notification(%{data: params, type: period}) do
       {:ok, task_to_command(params)}
+    end
+  end
+
+  @spec current_task_content(keyword) :: {:ok, [String.t()]} | {:error, :bad_response}
+  def current_task_content(opts \\ []) do
+    opts = Keyword.merge(@default_opts, opts)
+
+    with {:ok, tasks} <- Client.current_tasks(opts) do
+      {:ok, Enum.map(tasks, & &1["content"])}
     end
   end
 
@@ -118,6 +128,19 @@ defmodule Doit.Todoist do
         "project_id" => @project_id
       }
     }
+  end
+
+  def filter_existing_tasks(tasks, current_task_content) do
+    Enum.reject(tasks, &same_content?(&1, current_task_content))
+  end
+
+  defp same_content?(%{"args" => %{"content" => content}}, current_task_content) do
+    content in current_task_content
+  end
+
+  defp same_content?(task, _) do
+    Logger.warn("Could not find content in #{inspect(task)}")
+    false
   end
 
   defp new_uuid do

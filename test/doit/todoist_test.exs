@@ -3,6 +3,13 @@ defmodule Doit.TodoistTest do
 
   alias Doit.Todoist
   alias Doit.Todoist.Client.BadResponse
+  alias Doit.Todoist.MockServer
+
+  setup do
+    start_supervised!({MockServer, []})
+    Process.sleep(50)
+    :ok
+  end
 
   describe "get_completed_tasks/1" do
     test "can get completed tasks for the last 24 hours" do
