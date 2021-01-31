@@ -5,7 +5,7 @@ defmodule Doit.MixProject do
     [
       app: :doit,
       version: "0.1.0",
-      elixir: "~> 1.10",
+      elixir: "~> 1.11",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
@@ -65,11 +65,11 @@ defmodule Doit.MixProject do
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
       {:httpoison, "~> 1.6"},
-      {:tzdata, "~> 1.0.4"},
+      {:tzdata, "~> 1.1"},
       {:typed_struct, "~> 0.2.1"},
       # Tooling
       {:ex_check, "~>0.12", only: :dev, runtime: false},
-      {:credo, "~> 1.4.0", only: [:dev, :test], runtime: false},
+      {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.0.0-rc.6", only: [:dev, :test], runtime: false},
       {:muzak, "~> 1.0", only: :test}
     ]
