@@ -8,11 +8,12 @@ defmodule Doit.GitHub.Client.HTTP do
 
   @behaviour Doit.GitHub.Client
   @notifications_url "https://api.github.com/notifications"
+  @github_token Application.compile_env(:doit, :github_token)
 
   @impl true
   def notifications do
     headers = [
-      Authorization: "Bearer #{github_token()}",
+      Authorization: "Bearer #{@github_token}",
       Accept: "application/vnd.github.v3+json"
     ]
 
@@ -33,7 +34,7 @@ defmodule Doit.GitHub.Client.HTTP do
   @impl true
   def clear_notifications(timestamp) do
     headers = [
-      Authorization: "Bearer #{github_token()}",
+      Authorization: "Bearer #{@github_token}",
       Accept: "application/vnd.github.v3+json"
     ]
 
@@ -54,10 +55,6 @@ defmodule Doit.GitHub.Client.HTTP do
         log_error("clear_notifications/1", [timestamp], error)
         {:error, :bad_response}
     end
-  end
-
-  defp github_token do
-    Application.fetch_env!(:doit, :github_token)
   end
 
   defp log_error(function, arguments, error) do

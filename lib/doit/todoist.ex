@@ -9,8 +9,10 @@ defmodule Doit.Todoist do
   @type params :: %{task: String.t()} | %{task: String.t(), notes: [String.t()]}
 
   @periods [:last_24, :last_week]
+  @project_id Application.compile_env(:doit, :default_project)
+  @default_tags Application.compile_env(:doit, :default_tags, "")
 
-  @default_opts [client: Application.fetch_env!(:doit, :todoist_client)]
+  @default_opts [client: Application.compile_env(:doit, :todoist_client)]
 
   @spec create_task(params) :: :ok | {:error, :bad_response}
   @spec create_task(params, keyword) :: :ok | {:error, :bad_response}
@@ -88,9 +90,9 @@ defmodule Doit.Todoist do
         "temp_id" => item_id,
         "uuid" => new_uuid(),
         "args" => %{
-          "content" => "#{task} #{default_tags()}",
+          "content" => "#{task} #{@default_tags}",
           "priority" => 2,
-          "project_id" => project_id(),
+          "project_id" => @project_id,
           "auto_parse_labels" => true
         }
       }
@@ -111,23 +113,15 @@ defmodule Doit.Todoist do
       "temp_id" => new_uuid(),
       "uuid" => new_uuid(),
       "args" => %{
-        "content" => "#{task} #{default_tags()}",
+        "content" => "#{task} #{@default_tags}",
         "priority" => 2,
-        "project_id" => project_id()
+        "project_id" => @project_id
       }
     }
   end
 
   defp new_uuid do
     Ecto.UUID.generate()
-  end
-
-  defp project_id do
-    Application.fetch_env!(:doit, :default_project)
-  end
-
-  defp default_tags do
-    Application.get_env(:doit, :default_tags, "")
   end
 
   @spec get_text(period) :: String.t()

@@ -8,7 +8,7 @@ defmodule Doit.Todoist.Client do
   @callback create_task(map) :: :ok | {:error, :bad_response}
   @callback completed_items(String.t()) :: resp
   @callback completed_items(String.t(), keyword) :: resp
-  @default_opts [client: Application.fetch_env!(:doit, :github_client)]
+  @default_opts [client: Application.compile_env(:doit, :github_client)]
 
   @spec create_task(map, keyword) :: :ok | {:error, :bad_response}
   def create_task(commands, opts \\ []) do

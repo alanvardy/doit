@@ -14,6 +14,7 @@ defmodule Doit.Todoist.Client.HTTP do
   @default_opts [sleep: 0, offset: 0]
   @limit 200
   @timeout 62_000
+  @todoist_token Application.compile_env(:doit, :todoist_token)
 
   @impl true
   @spec create_task(map) :: :ok | {:error, :bad_response}
@@ -24,7 +25,7 @@ defmodule Doit.Todoist.Client.HTTP do
     options = [
       ssl: [{:versions, [:"tlsv1.2"]}],
       recv_timeout: 5000,
-      params: [token: todoist_token(), commands: Jason.encode!([commands])]
+      params: [token: @todoist_token, commands: Jason.encode!([commands])]
     ]
 
     case HTTPoison.post(@create_task_url, "", headers, options) do
@@ -61,7 +62,7 @@ defmodule Doit.Todoist.Client.HTTP do
     options = [
       ssl: [{:versions, [:"tlsv1.2"]}],
       recv_timeout: 5000,
-      params: [token: todoist_token(), since: timestamp, limit: @limit, offset: offset]
+      params: [token: @todoist_token, since: timestamp, limit: @limit, offset: offset]
     ]
 
     with sleep when sleep < @timeout and is_integer(sleep) <- opts[:sleep],
@@ -93,10 +94,6 @@ defmodule Doit.Todoist.Client.HTTP do
            completed_items(timestamp, Keyword.merge(opts, offset: opts[:offset] + @limit)) do
       {:ok, %{items: items ++ new_items, projects: projects}}
     end
-  end
-
-  defp todoist_token do
-    Application.fetch_env!(:doit, :todoist_token)
   end
 
   defp log_error(function, arguments, error) do
