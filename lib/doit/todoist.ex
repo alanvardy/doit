@@ -130,6 +130,7 @@ defmodule Doit.Todoist do
     }
   end
 
+  @spec filter_existing_tasks([map], [map]) :: [map]
   def filter_existing_tasks(tasks, current_task_content) do
     Enum.reject(tasks, &same_content?(&1, current_task_content))
   end

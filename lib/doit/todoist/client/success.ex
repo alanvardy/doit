@@ -148,7 +148,7 @@ defmodule Doit.Todoist.Client.Success do
   end
 
   @impl true
-  def current_tasks() do
+  def current_tasks do
     {:ok,
      [
        %{

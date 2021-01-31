@@ -14,7 +14,6 @@ defmodule Doit.PeriodicJobTest do
 
   describe "periodic job on a good Tuesday" do
     setup do
-
       start_supervised!({PeriodicJob, current_datetime: @tuesday})
 
       :ok
