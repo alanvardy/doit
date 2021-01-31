@@ -1,10 +1,28 @@
 use Mix.Config
 
+github_token =
+  System.get_env("GITHUB_TOKEN") ||
+    raise """
+    environment variable GITHUB_TOKEN is missing.
+    """
+
+todoist_token =
+  System.get_env("TODOIST_TOKEN") ||
+    raise """
+    environment variable TODOIST_TOKEN is missing.
+    """
+
+default_project =
+  System.get_env("DEFAULT_PROJECT") ||
+    raise """
+    environment variable DEFAULT_PROJECT is missing.
+    """
+
 config :doit,
   env: :prod,
-  github_token: System.compile_env("GITHUB_TOKEN"),
-  todoist_token: System.compile_env("TODOIST_TOKEN"),
-  default_project: System.compile_env("DEFAULT_PROJECT"),
+  github_token: github_token,
+  todoist_token: todoist_token,
+  default_project: default_project,
   default_tags: System.get_env("DEFAULT_TAGS")
 
 database_url =
