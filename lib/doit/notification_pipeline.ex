@@ -81,10 +81,11 @@ defmodule Doit.NotificationPipeline do
          tasks <- Enum.map(tasks, &Todoist.task_to_command(%{task: &1})),
          {:ok, current_task_content} <- Todoist.current_task_content(),
          filtered_tasks <- Todoist.filter_existing_tasks(tasks, current_task_content) do
+      num_tasks = Enum.count(tasks)
+      num_filtered_tasks = Enum.count(filtered_tasks)
+
       Logger.info(
-        "Fetched #{Enum.count(tasks)}, removed #{Enum.count(tasks - filtered_tasks)}, #{
-          Enum.count(filtered_tasks)
-        } remaining"
+        "Fetched #{num_tasks}, removed #{num_tasks - num_filtered_tasks}, #{num_filtered_tasks} remaining"
       )
 
       Process.send_after(__MODULE__, :process, @short_delay, [])
