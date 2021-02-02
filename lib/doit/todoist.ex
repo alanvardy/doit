@@ -132,7 +132,9 @@ defmodule Doit.Todoist do
 
   @spec filter_existing_tasks([map], [map]) :: [map]
   def filter_existing_tasks(tasks, current_task_content) do
-    Enum.reject(tasks, &same_content?(&1, current_task_content))
+    tasks
+    |> Enum.uniq_by(&get_in(&1, ["args", "content"]))
+    |> Enum.reject(&same_content?(&1, current_task_content))
   end
 
   defp same_content?(%{"args" => %{"content" => content}}, current_task_content) do
