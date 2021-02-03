@@ -16,4 +16,4 @@ docker-compose up -d
 mix check # Run the test suite
 ```
 
-_This code is not created by, affiliated with, or supported by Doist_
+_This code is not created by, affiliated with, or supported by Doist or GitHub_

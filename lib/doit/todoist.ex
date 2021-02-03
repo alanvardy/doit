@@ -154,3 +154,4 @@ defmodule Doit.Todoist do
   defp get_text(:last_24), do: "Last 24 Hours"
   defp get_text(:last_week), do: "Last Week"
 end
+
