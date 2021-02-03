@@ -138,7 +138,7 @@ defmodule Doit.Todoist do
   end
 
   defp same_content?(%{"args" => %{"content" => content}}, current_task_content) do
-    content in current_task_content
+    Enum.any?(current_task_content, &String.contains?(content, &1))
   end
 
   defp same_content?(task, _) do
