@@ -9,6 +9,7 @@ defmodule Doit.Todoist do
   @type period :: :last_24 | :last_week
   @type params :: %{task: String.t()} | %{task: String.t(), notes: [String.t()]}
 
+  @excluded_content ["Last 24 Hours", "Last Week"]
   @periods [:last_24, :last_week]
   @project_id Application.compile_env(:doit, :default_project)
   @default_tags Application.compile_env(:doit, :default_tags, "")
@@ -130,11 +131,15 @@ defmodule Doit.Todoist do
     }
   end
 
-  @spec filter_existing_tasks([map], [map]) :: [map]
+  @spec filter_existing_tasks([map], [String.t()]) :: [map]
   def filter_existing_tasks(tasks, current_task_content) do
     tasks
     |> Enum.uniq_by(&get_in(&1, ["args", "content"]))
     |> Enum.reject(&same_content?(&1, current_task_content))
+  end
+
+  defp same_content?(%{"args" => %{"content" => content}}, _) when content in @excluded_content do
+    false
   end
 
   defp same_content?(%{"args" => %{"content" => content}}, current_task_content) do
@@ -154,4 +159,3 @@ defmodule Doit.Todoist do
   defp get_text(:last_24), do: "Last 24 Hours"
   defp get_text(:last_week), do: "Last Week"
 end
-

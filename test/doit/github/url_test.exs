@@ -43,7 +43,7 @@ defmodule Doit.GitHub.UrlTest do
       assert Url.format(@pull_request_comment_notification) === %{
                repo: "some-repo",
                repo_url: "https://github.com/someorg/some-repo",
-               url: "https://github.com/someorg/some-repo/issues/1773#issuecomment-2345"
+               url: "https://github.com/someorg/some-repo/pull/1773"
              }
     end
 
