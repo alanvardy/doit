@@ -9,15 +9,15 @@ defmodule DoitWeb.Router do
     plug :put_secure_browser_headers
   end
 
-  # pipeline :api do
-  #   plug :accepts, ["json"]
-  # end
+  pipeline :api do
+    plug :accepts, ["json"]
+  end
 
-  # scope "/", DoitWeb do
-  #   pipe_through :browser
+  scope "/", DoitWeb do
+    pipe_through :api
 
-  #   get "/", PageController, :index
-  # end
+    post "/parse", ParseController, :new
+  end
 
   # Other scopes may use custom stacks.
   # scope "/api", DoitWeb do

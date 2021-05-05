@@ -40,7 +40,11 @@ defmodule Doit.Application do
     if test?() do
       []
     else
-      [{Doit.PeriodicJob, []}, {Doit.NotificationPipeline, []}]
+      [
+        {Doit.PeriodicJob, []}
+        # Summaries currently not desired
+        # {Doit.NotificationPipeline, []}
+      ]
     end
   end
 
