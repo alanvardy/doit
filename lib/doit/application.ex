@@ -41,9 +41,9 @@ defmodule Doit.Application do
       []
     else
       [
-        {Doit.PeriodicJob, []}
         # Summaries currently not desired
-        # {Doit.NotificationPipeline, []}
+        # {Doit.PeriodicJob, []}
+        {Doit.NotificationPipeline, []}
       ]
     end
   end
