@@ -16,7 +16,7 @@ defmodule Doit.GitHub.Url do
     urls = %{comment_url: comment_url, url: url}
 
     cond do
-      is_nil?(url) -> %{repo: "Unknown", url: comment_url, repo_url: comment_url}
+      is_nil(url) -> %{repo: "Unknown", url: comment_url, repo_url: comment_url}
       pull_request?(url, comment_url) -> format_url(urls, :pull_request)
       repo_notification?(url, comment_url) -> format_url(urls, :repo)
       pull_request_comment?(url, comment_url) -> format_url(urls, :pull_request)
