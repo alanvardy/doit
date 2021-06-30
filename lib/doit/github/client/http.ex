@@ -32,6 +32,28 @@ defmodule Doit.GitHub.Client.HTTP do
   end
 
   @impl true
+  def pull_merge_status(url) do
+    headers = [
+      Authorization: "Bearer #{@github_token}",
+      Accept: "application/vnd.github.v3+json"
+    ]
+
+    options = [ssl: [{:versions, [:"tlsv1.2"]}], recv_timeout: 5000]
+
+    case HTTPoison.get(url <> "/merge", headers, options) do
+      {:ok, %Response{status_code: 204}} ->
+        {:ok, :merged}
+
+      {:ok, %Response{status_code: 404}} ->
+        {:ok, :open}
+
+      error ->
+        log_error("merge_request/1", [], error)
+        {:ok, :open}
+    end
+  end
+
+  @impl true
   def clear_notifications(timestamp) do
     headers = [
       Authorization: "Bearer #{@github_token}",
