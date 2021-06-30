@@ -25,9 +25,10 @@ defmodule Doit.GitHub do
     end
   end
 
-  @spec tasks_from_response(Response.t()) :: [String.t()]
-  def tasks_from_response(%Response{notifications: notifications}) do
-    Enum.map(notifications, &task_from_notification/1)
+  def pull_merge_status(url, opts \\ []) do
+    opts = Keyword.merge(@default_opts, opts)
+
+    Client.pull_merge_status(url)
   end
 
   @spec task_from_notification(Notification.t()) :: String.t()
