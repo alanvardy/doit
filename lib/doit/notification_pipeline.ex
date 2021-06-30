@@ -4,7 +4,7 @@ defmodule Doit.NotificationPipeline do
   require Logger
 
   alias Doit.{GitHub, Todoist}
-  alias Doit.GitHub.{Response, Notification}
+  alias Doit.GitHub.{Notification, Response}
 
   if Mix.env() === :test do
     @short_delay 1
@@ -101,8 +101,10 @@ defmodule Doit.NotificationPipeline do
   end
 
   defp fetch_tasks do
-    with {:ok, %Response{poll_interval: interval, timestamp: timestamp, notifications: notifications}} <- GitHub.get_notifications(),
-        notifications <- Enum.filter(notifications, &not_merged/1),
+    with {:ok,
+          %Response{poll_interval: interval, timestamp: timestamp, notifications: notifications}} <-
+           GitHub.get_notifications(),
+         notifications <- Enum.filter(notifications, &not_merged/1),
          tasks <- Enum.map(notifications, &GitHub.task_from_notification/1),
          tasks <- Enum.map(tasks, &Todoist.task_to_command(%{task: &1})),
          {:ok, current_task_content} <- Todoist.current_task_content(),

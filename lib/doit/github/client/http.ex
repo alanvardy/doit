@@ -41,9 +41,11 @@ defmodule Doit.GitHub.Client.HTTP do
     options = [ssl: [{:versions, [:"tlsv1.2"]}], recv_timeout: 5000]
 
     case HTTPoison.get(url <> "/merge", headers, options) do
-      {:ok, %Response{status_code: 204}} ->        {:ok, :merged}
+      {:ok, %Response{status_code: 204}} ->
+        {:ok, :merged}
 
-      {:ok, %Response{status_code: 404}} ->        {:ok, :open}
+      {:ok, %Response{status_code: 404}} ->
+        {:ok, :open}
 
       error ->
         log_error("merge_request/1", [], error)

@@ -25,10 +25,11 @@ defmodule Doit.GitHub do
     end
   end
 
+  @spec pull_merge_status(String.t(), keyword) :: {:ok, :open | :merged}
   def pull_merge_status(url, opts \\ []) do
     opts = Keyword.merge(@default_opts, opts)
 
-    Client.pull_merge_status(url)
+    Client.pull_merge_status(url, opts)
   end
 
   @spec task_from_notification(Notification.t()) :: String.t()
