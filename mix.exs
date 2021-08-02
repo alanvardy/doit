@@ -9,8 +9,9 @@ defmodule Doit.MixProject do
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
-      preferred_cli_env: [muzak: :test],
+      preferred_cli_env: [muzak: :test, dialyzer: :test],
       dialyzer: [
+        plt_add_apps: [:ex_unit],
         flags: [
           :no_behaviours,
           :no_contracts,
@@ -64,7 +65,8 @@ defmodule Doit.MixProject do
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
-      {:httpoison, "~> 1.6"},
+      {:tesla, "~> 1.4"},
+      {:hackney, "~> 1.17"},
       {:tzdata, "~> 1.1"},
       {:typed_struct, "~> 0.2.1"},
       # Tooling

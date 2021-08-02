@@ -4,26 +4,39 @@ defmodule Doit.GitHub.Client.HTTP do
   """
 
   require Logger
-  alias HTTPoison.Response
+  alias Tesla.{Client, Env}
 
   @behaviour Doit.GitHub.Client
-  @notifications_url "https://api.github.com/notifications"
+  @base_url "https://api.github.com"
   @github_token Application.compile_env(:doit, :github_token)
+
+  @spec client(String.t()) :: Client.t()
+  def client(token) do
+    middleware = [
+      {Tesla.Middleware.BaseUrl, @base_url},
+      Tesla.Middleware.JSON,
+      {Tesla.Middleware.Headers,
+       [
+         {"authorization", "token " <> token},
+         {"accept", "application/vnd.github.v3+json"},
+         {"user-agent", "Tesla"}
+       ]}
+    ]
+
+    adapter = {Tesla.Adapter.Hackney, [ssl: [{:versions, [:"tlsv1.2"]}], recv_timeout: 5000]}
+    Tesla.client(middleware, adapter)
+  end
 
   @impl true
   def notifications do
-    headers = [
-      Authorization: "Bearer #{@github_token}",
-      Accept: "application/vnd.github.v3+json"
-    ]
-
     now = DateTime.utc_now() |> DateTime.to_iso8601()
 
-    options = [ssl: [{:versions, [:"tlsv1.2"]}], recv_timeout: 5000, params: [before: now]]
-
-    case HTTPoison.get(@notifications_url, headers, options) do
-      {:ok, %Response{status_code: 200, body: body, headers: headers}} ->
-        {:ok, %{notifications: Jason.decode!(body), headers: headers, timestamp: now}}
+    @github_token
+    |> client()
+    |> Tesla.get("/notifications", query: [before: now])
+    |> case do
+      {:ok, %Env{status: 200, body: body, headers: headers}} ->
+        {:ok, %{notifications: body, headers: headers, timestamp: now}}
 
       error ->
         log_error("notifications/0", [], error)
@@ -32,19 +45,15 @@ defmodule Doit.GitHub.Client.HTTP do
   end
 
   @impl true
-  def pull_merge_status(url) do
-    headers = [
-      Authorization: "Bearer #{@github_token}",
-      Accept: "application/vnd.github.v3+json"
-    ]
-
-    options = [ssl: [{:versions, [:"tlsv1.2"]}], recv_timeout: 5000]
-
-    case HTTPoison.get(url <> "/merge", headers, options) do
-      {:ok, %Response{status_code: 204}} ->
+  def pull_merge_status(@base_url <> url) do
+    @github_token
+    |> client()
+    |> Tesla.get(url <> "/merge")
+    |> case do
+      {:ok, %Env{status: 204}} ->
         {:ok, :merged}
 
-      {:ok, %Response{status_code: 404}} ->
+      {:ok, %Env{status: 404}} ->
         {:ok, :open}
 
       error ->
@@ -55,22 +64,14 @@ defmodule Doit.GitHub.Client.HTTP do
 
   @impl true
   def clear_notifications(timestamp) do
-    headers = [
-      Authorization: "Bearer #{@github_token}",
-      Accept: "application/vnd.github.v3+json"
-    ]
-
-    options = [
-      ssl: [{:versions, [:"tlsv1.2"]}],
-      recv_timeout: 5000,
-      params: [last_read_at: timestamp]
-    ]
-
-    case HTTPoison.put(@notifications_url, "", headers, options) do
-      {:ok, %Response{status_code: 205}} ->
+    @github_token
+    |> client()
+    |> Tesla.put("/notifications", query: [last_read_at: timestamp])
+    |> case do
+      {:ok, %Env{status: 205}} ->
         :ok
 
-      {:ok, %Response{status_code: 202}} ->
+      {:ok, %Env{status: 202}} ->
         :ok
 
       error ->
