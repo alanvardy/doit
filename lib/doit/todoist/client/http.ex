@@ -2,39 +2,47 @@ defmodule Doit.Todoist.Client.HTTP do
   @moduledoc """
   The actual client for GitHub
   """
-  alias HTTPoison.Response
+  alias Tesla.{Client, Env}
   require Logger
 
   @behaviour Doit.Todoist.Client
 
   @type resp :: {:ok, %{items: [map], projects: map}} | {:error, :bad_response}
 
-  @create_task_url "https://api.todoist.com/sync/v8/sync"
-  @completed_item_url "https://api.todoist.com/sync/v8/completed/get_all"
-  @project_data_url "https://api.todoist.com/sync/v8/projects/get_data"
+  @base_url "https://api.todoist.com/sync/v8"
   @default_opts [sleep: 0, offset: 0]
   @limit 200
   @timeout 62_000
   @todoist_token Application.compile_env(:doit, :todoist_token)
   @project_id Application.compile_env(:doit, :default_project)
 
+  @spec client :: Client.t()
+  def client do
+    middleware = [
+      {Tesla.Middleware.BaseUrl, @base_url},
+      Tesla.Middleware.JSON,
+      {Tesla.Middleware.Headers,
+       [
+         {"accept", "Application/json; Charset=utf-8"},
+         {"user-agent", "Tesla"}
+       ]}
+    ]
+
+    adapter = {Tesla.Adapter.Hackney, [ssl: [{:versions, [:"tlsv1.2"]}], recv_timeout: 5000]}
+    Tesla.client(middleware, adapter)
+  end
+
   @impl true
   @spec create_task(map) :: :ok | {:error, :bad_response}
   @spec create_task(map, non_neg_integer()) :: :ok | {:error, :bad_response}
   def create_task(commands, retries \\ 0) do
-    headers = [Accept: "Application/json; Charset=utf-8"]
+    query = [token: @todoist_token, commands: Jason.encode!([commands])]
 
-    options = [
-      ssl: [{:versions, [:"tlsv1.2"]}],
-      recv_timeout: 5000,
-      params: [token: @todoist_token, commands: Jason.encode!([commands])]
-    ]
-
-    case HTTPoison.post(@create_task_url, "", headers, options) do
-      {:ok, %Response{status_code: 200}} ->
+    case Tesla.post(client(), "/sync", query: query) do
+      {:ok, %Env{status: 200}} ->
         :ok
 
-      {:ok, %Response{status_code: 400}} = error ->
+      {:ok, %Env{status: 400}} = error ->
         if retries < 3 do
           commands
           |> refresh_uuid()
@@ -57,22 +65,13 @@ defmodule Doit.Todoist.Client.HTTP do
   def completed_items(timestamp, opts \\ []) do
     opts = Keyword.merge(@default_opts, opts)
 
-    offset = opts[:offset]
-
-    headers = [Accept: "Application/json; Charset=utf-8"]
-
-    options = [
-      ssl: [{:versions, [:"tlsv1.2"]}],
-      recv_timeout: 5000,
-      params: [token: @todoist_token, since: timestamp, limit: @limit, offset: offset]
-    ]
+    query = [token: @todoist_token, since: timestamp, limit: @limit, offset: opts[:offset]]
 
     with sleep when sleep < @timeout and is_integer(sleep) <- opts[:sleep],
          :ok <- Process.sleep(sleep),
-         response_tuple <- HTTPoison.post(@completed_item_url, "", headers, options),
-         {:ok, %Response{status_code: 200, body: body}} <- response_tuple,
-         {:ok, %{"items" => items, "projects" => projects}} when length(items) < 200 <-
-           Jason.decode(body) do
+         response_tuple <- Tesla.post(client(), "/completed/get_all", query: query),
+         {:ok, %Env{status: 200, body: body}} <- response_tuple,
+         {:ok, %{"items" => items, "projects" => projects}} when length(items) < 200 <- body do
       {:ok, %{items: items, projects: projects}}
     else
       nil ->
@@ -93,19 +92,10 @@ defmodule Doit.Todoist.Client.HTTP do
 
   @impl true
   def current_tasks do
-    headers = [Accept: "Application/json; Charset=utf-8"]
+    query = [token: @todoist_token, project_id: @project_id]
 
-    options = [
-      ssl: [{:versions, [:"tlsv1.2"]}],
-      recv_timeout: 5000,
-      params: [token: @todoist_token, project_id: @project_id]
-    ]
-
-    with response_tuple <- HTTPoison.post(@project_data_url, "", headers, options),
-         {:ok, %Response{status_code: 200, body: body}} <- response_tuple,
-         {:ok, %{"items" => items}} <- Jason.decode(body) do
-      {:ok, items}
-    else
+    case Tesla.get(client(), "/projects/get_data", query: query) do
+      {:ok, %Env{status: 200, body: %{"items" => items}}} -> {:ok, items}
       error -> log_error("current_tasks/0", [], error)
     end
   end
