@@ -28,7 +28,7 @@ defmodule Doit.Todoist.Client.HTTP do
        ]}
     ]
 
-    adapter = {Tesla.Adapter.Hackney, [ssl: [{:versions, [:"tlsv1.2"]}], recv_timeout: 5000]}
+    adapter = {Tesla.Adapter.Hackney, [ssl: [{:versions, [:"tlsv1.2"]}], recv_timeout: 10000]}
     Tesla.client(middleware, adapter)
   end
 
