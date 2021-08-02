@@ -70,7 +70,7 @@ defmodule Doit.MixProject do
       # Tooling
       {:ex_check, "~>0.12", only: :dev, runtime: false},
       {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
-      {:dialyxir, "~> 1.0.0-rc.6", only: [:dev, :test], runtime: false},
+      {:dialyxir, "~> 1.1.0", only: [:dev, :test], runtime: false},
       {:muzak, "~> 1.0", only: :test}
     ]
   end
