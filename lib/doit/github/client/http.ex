@@ -45,7 +45,7 @@ defmodule Doit.GitHub.Client.HTTP do
   end
 
   @impl true
-  def pull_merge_status(@base_url <> url) do
+  def pull_merge_status("https://github.com" <> url) do
     @github_token
     |> client()
     |> Tesla.get(url <> "/merge")
